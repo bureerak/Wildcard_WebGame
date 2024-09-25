@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+            body {
+                font-family: "Chakra Petch", sans-serif;
+            }
+
+            #menuBtn {
+                width: 24px;
+                height: 24px;
+                top: 16px;
+                left: 16px;
+                background-image: url("./res/menu.png");
+                background-repeat: no-repeat;
+                background-size: cover;
+                display: block;
+                position: fixed;
+            }
+            
+            #playerBar {
+                top: 0;
+                left: 50%;
+                margin-top: 8px;
+                padding: 8px;
+                position: fixed;
+                transform: translate(-50%, 0);
+                width: 36vw;
+                max-width: 1000px;
+                min-width: 360px;
+                height: 100px;
+                background-color: red;
+                display: grid;
+                column-gap: 16px;
+                grid-template-columns: auto auto auto
+            }
+
+            .player-icon {
+                width: 80px;
+                margin: auto;
+                text-align: center;
+                display: inline;
+            }
+
+            .player-icon img {
+                width: 80px;
+                height: auto;
+                margin-top: 4px;
+            }
+
+            #cardStack {
+                top: 50%;
+                left: 0;
+                position: fixed;
+                transform: translate(-50%, 3vw);
+                width: 200px;
+                height: 280px;
+                rotate: 90deg;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="menuBtn"></div>
+        <div id="playerBar">
+            <div id="player1" class="player-icon">
+                <label>Copter</label>
+                <img src="res/player.png" />
+            </div>
+            <div id="player1" class="player-icon">
+                <label>Copter</label>
+                <img src="res/player.png" />
+            </div>
+            <div id="player1" class="player-icon">
+                <label>Copter</label>
+                <img src="res/player.png" />
+            </div>
+        </div>
+        <div id="cardStack">
+            <img src="./res/card/1.png" width="100%" />
+        </div>
+    </body>
+</html>
