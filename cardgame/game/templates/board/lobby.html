@@ -6,10 +6,83 @@
     <title>Board</title>
 </head>
 <body>
-    <ul>
-        <li><a href="{%url 'home'%}">home</a></li>
-        <li><a href="{%url 'in_game'%}">game</a></li>
-    </ul>
-    <h1>Board Create Here</h1>
+    <h1>Hello {{ username }} This Room is {{ room_name }}</h1>
+    <div class="chatbox" id="chatbox">
+        {%for i in messages%}
+        {% if i.sender.lower == username.lower %}
+        <!-- เราส่ง -->
+            <div class="msg-sent" style="border: 1px solid red; color: blue; margin: 12px;">
+                <div class="msg-body">{{ i.message }}</div>
+                <p class="sender">Me</p>
+            </div>
+
+        {% else %}
+        <!-- คนอื่นส่ง -->
+            <div class="msg-rec" style="border: 1px solid red; color: blue; margin: 12px;">
+                <div class="msg-body">{{ i.message }}</div>
+                <p class="sender">{{ i.sender }}</p>
+            </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <form action="" method="post" id="msg-form">
+        {% csrf_token %}
+        <textarea name="message" id="message" cols="30" rows="10" placeholder="Enter your Message"></textarea>
+        <button type="submit">Click Me</button>
+    </form>
+
+    <script>
+
+        const socketURL = `ws://${window.location.host}/ws/messages/{{room_name}}/`
+        console.log("Entablishing Socket Connection")
+        const socket = new WebSocket(socketURL)
+
+        // send messages to the backend after connect with socket that make it realtime
+        const message_form = document.getElementById("msg-form")
+        message_form.addEventListener("submit", function (event) {
+            event.preventDefault()
+            let message_sent = document.getElementById("message").value
+            socket.send(
+                JSON.stringify({
+                    message:message_sent,
+                    room_name:"{{ room_name }}",
+                    sendman:"{{ username }}",
+                })
+            )
+        })
+
+        const chat_div = document.getElementById("chatbox")
+        // scroll to bottom function
+        const scrollTobottom = () => {
+            chat_div.scrollTop = chat_div.scrollHeight
+        }
+
+        // recieve message from backend
+        socket.addEventListener("message", (e) => {
+            const data = JSON.parse(e.data)["message"]
+
+            let sender = data["sendman"]
+            let content = data["message"]
+
+            if (sender == "{{ username }}"){
+                document.getElementById("message").value = ""
+            }
+
+            if (sender == "{{ username }}"){
+                chat_div.innerHTML += `<div class="msg-sent" style="border: 1px solid red; color: blue; margin: 12px;">
+                <div class="msg-body">${content}</div>
+                <p class="sender">Me</p>
+            </div>`
+            } else {
+                chat_div.innerHTML += `<div class="msg-rec" style="border: 1px solid red; color: blue; margin: 12px;">
+                <div class="msg-body">${content}</div>
+                <p class="sender">${sender}</p>
+            </div>`
+            }
+
+            scrollTobottom()
+
+        })
+    </script>
 </body>
 </html>
