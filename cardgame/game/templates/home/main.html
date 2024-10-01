@@ -6,10 +6,15 @@
     <title>Home</title>
 </head>
 <body>
-    <ul>
-        <li><a href="{%url 'home'%}">home</a></li>
-        <li><a href="{%url 'in_game'%}">game</a></li>
-    </ul>
     <h1>Home Page Here</h1>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" placeholder="Username" name="username" required>
+        <br>
+        <input type="text" placeholder="Room Name" name="room" required>
+        <button type="submit">Submit</button>
+    </form>
+
 </body>
 </html>
