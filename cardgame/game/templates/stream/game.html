@@ -60,6 +60,28 @@
                 chat.appendChild(chat_template)
                 chat.scrollTop = chat.scrollHeight
             }
+
+            function showChat() {
+                let chat = document.getElementById("chat-container")
+                let chat_hide = document.getElementById("chat-hide")
+                chat.style.transition = "all 1s ease"
+                chat_hide.style.transition = "all 1s ease"
+                chat_hide.style.transform = "translate(100%, -50%)"
+                setTimeout( function() {
+                    chat.style.transform = "translate(0, -50%)"
+                }, 500 )
+            }
+
+            function hideChat() {
+                let chat = document.getElementById("chat-container")
+                let chat_hide = document.getElementById("chat-hide")
+                chat.style.transition = "all 1s ease"
+                chat_hide.style.transition = "all 1s ease"
+                chat.style.transform = "translate(100%, -50%)"
+                setTimeout( function() {
+                    chat_hide.style.transform = "translate(0, -50%)"
+                }, 1000 )
+            }
         </script>
     </head>
     <body>
@@ -104,9 +126,12 @@
             <img src="./res/card/1.png" class="myCard" />
             <img src="./res/card/1.png" class="myCard" />
         </div>
+        <div id="chat-hide" onclick="showChat()">
+            <img src="res/chat.png" width="40" />
+        </div>
         <div id="chat-container">
             <div id="chat-title">
-                <button type="button">></button>&nbsp;
+                <button type="button" onclick="hideChat()">></button>&nbsp;
                 Chat
             </div>
             <div id="chat-display">
@@ -170,6 +195,7 @@
                         </table>
                     </div>
                 </div>
+            </div>
             <div id="chat-input">
                 <form action="" method="post" id="msg-form">
                     <!-- {% csrf_token %} -->

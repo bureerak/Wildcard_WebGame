@@ -9,9 +9,11 @@
             function splashScreen() {
                 setTimeout( function() {
                     document.getElementById("box").style.removeProperty("display")
+                    document.getElementById("navbar").style.removeProperty("display")
                     document.getElementById("splash").classList.remove("fadeIn")
                     document.getElementById("splash").classList.add("fadeOut")
                     document.getElementById("box").classList.add("fadeIn")
+                    document.getElementById("navbar").classList.add("fadeIn")
                     setTimeout( function() {
                         document.getElementById("splash").style.display = "none"
                     }, 1495 )
@@ -20,11 +22,12 @@
 
             function showScreen() {
                 document.getElementById("box").style.removeProperty("display")
+                document.getElementById("navbar").style.removeProperty("display")
                 document.getElementById("splash").style.display = "none"
             }
         </script>
     </head>
-    <body onload="splashScreen()">
+    <body onload="showScreen()">
         <div id="box" style="display: none;">
             <div class="box-background"></div>
             <div class="box-container">
@@ -43,13 +46,13 @@
                                 <img src="res/player.png" width="16" />
                                 ชื่อผู้เล่น:
                             </label>
-                            <input type="text" placeholder="กรอกชื่อผู้เล่น" name="username" id="username" required>
+                            <input type="text" placeholder="กรอกชื่อผู้เล่น (ไม่เกิน 32 ตัวอักษร)" name="username" id="username" maxlength="32" required>
                         </div>
                         <div style="margin-top: 12px;">
                             <label for="room">
                                 หมายเลขห้อง:
                             </label>
-                            <input type="text" placeholder="กรอกหมายเลขห้อง" name="room" required>
+                            <input type="text" placeholder="กรอกหมายเลขห้อง (ไม่เกิน 20 ตัวอักษร)" name="room" maxlength="20" required>
                         </div>
                         <div style="margin-top: 12px; text-align: center;">
                             <button type="submit">
@@ -60,6 +63,19 @@
                 </div>
             </div>
         </div>
+        <nav id="navbar" style="display: none;">
+            <div class="navcon">
+                <div>
+                    <img src="res/player.png" width="32" height="32" />
+                    <label>&nbsp; PSCP_Project_101</label>
+                </div>
+                <div>
+                    <a href="#">เล่นเกม</a>
+                    <a href="#">วิธีเล่น</a>
+                    <a href="#">เกี่ยวกับโปรเจค</a>
+                </div>
+            </div>
+        </nav>
         <div id="splash" class="fadeIn">
             <div class="splash-logo">
                 <img src="res/logo.png" />
