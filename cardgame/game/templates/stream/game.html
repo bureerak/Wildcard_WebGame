@@ -4,239 +4,63 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
-            @keyframes fadeIn {
-                0% {
-                    opacity: 0;
-                    display: block;
+        <link rel="stylesheet" type="text/css" href="game.css" />
+        <script>
+            function addMessage(message, name, time, type) {
+                /*  message: String
+                    name: String
+                    time: String
+                    type: 0 (Me), 1 (Friend)
+                */
+                let chat = document.getElementById("chat-display")
+                let chat_template = document.createElement("div")
+                if (type == 0) {
+                    chat_template.innerHTML = '<div class="message-me message">\
+                    <div>\
+                        <table border="0" width="100%">\
+                            <tr>\
+                                <td>\
+                                    <div class="message-content">\
+                                        ' + message +  '\
+                                    </div>\
+                                    <div class="message-info">\
+                                        ' + time + ' | ' + name + '\
+                                    </div>\
+                                </td>\
+                                <td width="2"></td>\
+                                <td width="32">\
+                                    <img src="res/player.png" class="message-profile" />\
+                                </td>\
+                            </tr>\
+                        </table>\
+                    </div>\
+                </div>'
+                } else {
+                    chat_template.innerHTML = '<div class="message-friend message">\
+                    <div>\
+                        <table border="0" width="100%"\
+                            <tr>\
+                                <td width="32">\
+                                    <img src="res/player.png" class="message-profile" />\
+                                </td>\
+                                <td width="2"></td>\
+                                <td>\
+                                    <div class="message-content">\
+                                        ' + message +  '\
+                                    </div>\
+                                    <div class="message-info">\
+                                        ' + time + ' | ' + name + '\
+                                    </div>\
+                                </td>\
+                            </tr>\
+                        </table>\
+                    </div>\
+                </div>'
                 }
-                100% {
-                    opacity: 1;
-                }
+                chat.appendChild(chat_template)
+                chat.scrollTop = chat.scrollHeight
             }
-
-            @keyframes fadeOut {
-                0% {
-                    opacity: 1;
-                }
-                100% {
-                    opacity: 0;
-                    display: none;
-                }
-            }
-
-            body {
-                font-family: "Chakra Petch", sans-serif;
-            }
-
-            #menuBtn {
-                width: 24px;
-                height: 24px;
-                top: 16px;
-                left: 16px;
-                background-image: url("./res/menu.png");
-                background-repeat: no-repeat;
-                background-size: cover;
-                display: block;
-                position: fixed;
-            }
-            
-            #playerBar {
-                top: 0;
-                left: 50%;
-                margin-top: 2px;
-                padding: 8px;
-                position: fixed;
-                transform: translate(-50%, 0);
-                width: 36vw;
-                max-width: 1000px;
-                min-width: 360px;
-                height: 80px;
-                background-color: red;
-                display: grid;
-                column-gap: 16px;
-                grid-template-columns: auto auto auto
-            }
-
-            .player-icon {
-                width: 80px;
-                margin: auto;
-                text-align: center;
-                display: inline;
-            }
-
-            .player-icon img {
-                width: 60px;
-                height: auto;
-                margin-top: 4px;
-            }
-
-            #cardStack {
-                top: 50%;
-                left: calc(-72px - 1vw);
-                position: fixed;
-                transform: translate(-50%, 0);
-                max-width: 200px;
-                width: 25vw;
-                height: auto;
-                rotate: 90deg;
-            }
-
-            #cardMe {
-                background-color: blue;
-                top: 100%;
-                left: 50%;
-                transform: translate(-50%, -100%);
-                position: fixed;
-                width: 70vw;
-                max-height: 180px;
-                margin: auto;
-                text-align: center;
-                white-space: nowrap;
-                overflow-x: auto;
-                overflow-y: hidden;
-                padding-top: 100px;
-            }
-
-            #cardBlock {
-                display: none;
-                /* animation: fadeIn 0.4s linear 1 normal; */
-                margin: 0;
-                top: 0;
-                left: 0;
-                width: 240px;
-                height: 120px;
-                position: fixed;
-                background-color: rgba(0, 0, 0, 0.5);
-            }
-
-            .myCard {
-                display: inline-table;
-                position: relative;
-                width: 120px;
-                height: auto;
-                transition: 0.4s;
-                cursor: pointer;
-            }
-
-            .myCard:not(:first-child) {
-                margin-left: -50px;
-            }
-
-            .myCard:hover {
-                transform: translate(0, -35%) scale(1.2);
-                z-index: 99999;
-            }
-
-            #chat-container {
-                width: 24vw;
-                min-width: 220px;
-                top: 50%;
-                right: 0;
-                transform: translate(0, -50%);
-                position: fixed;
-            }
-
-            #chat-title {
-                border-radius: 8px 0 0 0;
-                background-color: gray;
-                padding: 8px;
-                font-size: larger;
-                font-weight: bold;
-            }
-
-            #chat-display {
-                background-color: whitesmoke;
-                height: 28vh;
-                padding: 12px;
-                overflow-x: auto;
-                overflow-y: auto;
-            }
-
-            #chat-input {
-                border-radius: 0 0 0 8px;
-                background-color: darkgray;
-                padding: 8px;
-            }
-
-            .message-profile {
-                background-color: white;
-                border-radius: 360px;
-                width: 24px;
-                height: 24px;
-                padding: 4px;
-            }
-
-            .message-content {
-                word-wrap: break-word;
-                text-align: left;
-            }
-
-            .message-info{
-                font-size: x-small;
-                color: gray;
-                margin-top: 2px;
-            }
-
-            .message table {
-                table-layout: fixed;
-                width: 100%;
-            }
-
-            .message td {
-                vertical-align: top;
-            }
-
-            .message-me td, .message-me .message-content{
-                text-align: right;
-            }
-
-            .message:not(:first-child) {
-                margin-top: 12px;
-            }
-
-            input {
-                font-family: "Chakra Petch", sans-serif;
-            }
-
-            input[type=text] {
-                width: 100%;
-                padding: 8px;
-                margin-top: 4px;
-                box-sizing: border-box;
-                border: none;
-                border-bottom: 2px solid #A2CA71;
-                border-radius: 8px;
-            }
-
-            button[type=submit] {
-                box-shadow: 0px 10px 14px -7px #387f39;
-                background:linear-gradient(to bottom, #bedc74 5%, #a2ca71 100%);
-                background-color:#bedc74;
-                border-radius:4px;
-                border:1px solid #4b8f29;
-                display:inline-block;
-                cursor:pointer;
-                color:#ffffff;
-                font-family: "Chakra Petch", sans-serif;
-                font-size:13px;
-                font-weight:bold;
-                padding:12px 24px;
-                text-decoration:none;
-                text-shadow:0px 1px 0px #5b8a3c;
-            }
-
-            button[type=submit]:hover {
-                background:linear-gradient(to bottom, #a2ca71 5%, #bedc74 100%);
-                background-color:#a2ca71;
-            }
-
-            button[type=submit]:active {
-                position:relative;
-                top:1px;
-            }
-        </style>
+        </script>
     </head>
     <body>
         <div id="menuBtn"></div>
@@ -346,47 +170,6 @@
                         </table>
                     </div>
                 </div>
-                <div class="message-friend message">
-                    <div>
-                        <table border="0" width="100%">
-                            <tr>
-                                <td width="32">
-                                    <img src="res/player.png" class="message-profile" />
-                                </td>
-                                <td width="2"></td>
-                                <td>
-                                    <div class="message-content">
-                                        สวัสดีวันจันทร์
-                                    </div>
-                                    <div class="message-info">
-                                        12:34 | Ohm
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="message-friend message">
-                    <div>
-                        <table border="0" width="100%">
-                            <tr>
-                                <td width="32">
-                                    <img src="res/player.png" class="message-profile" />
-                                </td>
-                                <td width="2"></td>
-                                <td>
-                                    <div class="message-content">
-                                        สวัสดีวันจันทร์
-                                    </div>
-                                    <div class="message-info">
-                                        12:34 | Ohm
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
             <div id="chat-input">
                 <form action="" method="post" id="msg-form">
                     <!-- {% csrf_token %} -->
