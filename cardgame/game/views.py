@@ -12,7 +12,7 @@ def home_page(request):
         except Room.DoesNotExist:
             r = Room.objects.create(room_name=room)
         return redirect("in_game", room_name = room, username = username)
-    return render(request, 'home/main.html')
+    return render(request, 'stream/index.html')
 
 def in_game(request, room_name, username):
     existing_room = Room.objects.get(room_name=room_name)
@@ -22,4 +22,4 @@ def in_game(request, room_name, username):
         "username":username,
         "room_name":existing_room.room_name,
     }
-    return render(request, 'board/lobby.html', context)
+    return render(request, 'stream/game.html', context)

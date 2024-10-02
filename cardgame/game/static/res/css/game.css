@@ -107,7 +107,7 @@ form {
     margin: 0;
     width: calc(100% + 16px);
     height: calc(100% + 16px);
-    background-image: url("res/home.jpg");
+    background-image: url("../home.jpg");
     background-position: center;
     background-size: cover;
     filter: blur(6px);
@@ -176,7 +176,7 @@ form {
     height: 24px;
     top: 16px;
     left: 16px;
-    background-image: url("./res/menu.png");
+    background-image: url("../menu.png");
     background-repeat: no-repeat;
     background-size: cover;
     display: block;

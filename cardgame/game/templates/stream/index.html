@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Home</title>
-        <link rel="stylesheet" type="text/css" href="game.css" />
+        <link rel="stylesheet" type="text/css" href="{%static 'res/css/game.css'%}" />
         <script>
             function splashScreen() {
                 setTimeout( function() {
@@ -40,10 +41,10 @@
                 <hr>
                 <div class="box-form">
                     <form action="" method="post">
-                        <!-- {% csrf_token %} -->
+                        {% csrf_token %}
                         <div>
                             <label for="username">
-                                <img src="res/player.png" width="16" />
+                                <img src="{%static 'res/player.png'%}" width="16" />
                                 ชื่อผู้เล่น:
                             </label>
                             <input type="text" placeholder="กรอกชื่อผู้เล่น (ไม่เกิน 32 ตัวอักษร)" name="username" id="username" maxlength="32" required>
@@ -66,7 +67,7 @@
         <nav id="navbar" style="display: none;">
             <div class="navcon">
                 <div>
-                    <img src="res/player.png" width="32" height="32" />
+                    <img src="{%static 'res/player.png'%}" width="32" height="32" />
                     <label>&nbsp; PSCP_Project_101</label>
                 </div>
                 <div>
@@ -78,7 +79,7 @@
         </nav>
         <div id="splash" class="fadeIn">
             <div class="splash-logo">
-                <img src="res/logo.png" />
+                <img src="{%static 'res/logo.png'%}" />
             </div>
         </div>
     </body>

@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <link rel="stylesheet" type="text/css" href="game.css" />
+        <link rel="stylesheet" type="text/css" href="{%static 'res/css/game.css'%}" />
         <script>
             function addMessage(message, name, time, type) {
                 /*  message: String
@@ -29,7 +30,7 @@
                                 </td>\
                                 <td width="2"></td>\
                                 <td width="32">\
-                                    <img src="res/player.png" class="message-profile" />\
+                                    <img src="{%static 'res/player.png'%}" class="message-profile" />\
                                 </td>\
                             </tr>\
                         </table>\
@@ -41,7 +42,7 @@
                         <table border="0" width="100%"\
                             <tr>\
                                 <td width="32">\
-                                    <img src="res/player.png" class="message-profile" />\
+                                    <img src="{%static 'res/player.png'%}" class="message-profile" />\
                                 </td>\
                                 <td width="2"></td>\
                                 <td>\
@@ -89,45 +90,45 @@
         <div id="playerBar">
             <div id="player1" class="player-icon">
                 <label>Copter</label>
-                <img src="res/player.png" />
+                <img src="{%static 'res/player.png'%}" />
             </div>
             <div id="player1" class="player-icon">
                 <label>Copter</label>
-                <img src="res/player.png" />
+                <img src="{%static 'res/player.png'%}" />
             </div>
             <div id="player1" class="player-icon">
                 <label>Copter</label>
-                <img src="res/player.png" />
+                <img src="{%static 'res/player.png'%}" />
             </div>
         </div>
         <div id="cardStack">
-            <img src="./res/card/1.png" width="100%" />
+            <img src="{%static 'res/card/1.png'%}" width="100%" />
         </div>
         <div id="playerMe">
 
         </div>
         <div id="cardBlock">
-            <img src="./res/card/1.png" class="cardBl" width="100%" />
+            <img src="{%static 'res/card/1.png'%}" class="cardBl" width="100%" />
         </div>
         <div id="cardMe">
-            <img src="./res/card/1.png" class="myCard" />
-            <img src="./res/card/1.png" class="myCard" />
-            <img src="./res/card/1.png" class="myCard" />
-            <img src="./res/card/1.png" class="myCard" />
-            <img src="./res/card/1.png" class="myCard" />
-            <img src="./res/card/1.png" class="myCard" />
-            <img src="./res/card/1.png" class="myCard" />
-            <img src="./res/card/1.png" class="myCard" />
-            <img src="./res/card/1.png" class="myCard" />
-            <img src="./res/card/1.png" class="myCard" />
-            <img src="./res/card/1.png" class="myCard" />
-            <img src="./res/card/1.png" class="myCard" />
-            <img src="./res/card/1.png" class="myCard" />
-            <img src="./res/card/1.png" class="myCard" />
-            <img src="./res/card/1.png" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+            <img src="{%static 'res/card/1.png'%}" class="myCard" />
         </div>
         <div id="chat-hide" onclick="showChat()">
-            <img src="res/chat.png" width="40" />
+            <img src="{%static 'res/chat.png'%}" width="40" />
         </div>
         <div id="chat-container">
             <div id="chat-title">
@@ -135,75 +136,149 @@
                 Chat
             </div>
             <div id="chat-display">
-                <div class="message-friend message">
-                    <div>
-                        <table border="0" width="100%">
-                            <tr>
-                                <td width="32">
-                                    <img src="res/player.png" class="message-profile" />
-                                </td>
-                                <td width="2"></td>
-                                <td>
-                                    <div class="message-content">
-                                        This is looooooooooooooooooooooooong teeeeeeeeeext!
-                                    </div>
-                                    <div class="message-info">
-                                        12:34 | Ohm
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+                {%for i in messages%}
+                {% if i.sender.lower == username.lower %}
                 <div class="message-me message">
                     <div>
                         <table border="0" width="100%">
                             <tr>
                                 <td>
                                     <div class="message-content">
-                                        สวัสดีวันจันทร์
+                                        {{ i.message }}
                                     </div>
                                     <div class="message-info">
-                                        12:34 | Ohm
+                                        12:34 | {{ i.sender }}
                                     </div>
                                 </td>
                                 <td width="2"></td>
                                 <td width="32">
-                                    <img src="res/player.png" class="message-profile" />
+                                    <img src="{%static 'res/player.png'%}" class="message-profile" />
                                 </td>
                             </tr>
                         </table>
                     </div>
                 </div>
+
+                {% else %}
                 <div class="message-friend message">
                     <div>
                         <table border="0" width="100%">
                             <tr>
                                 <td width="32">
-                                    <img src="res/player.png" class="message-profile" />
+                                    <img src="{%static 'res/player.png'%}" class="message-profile" />
                                 </td>
                                 <td width="2"></td>
                                 <td>
                                     <div class="message-content">
-                                        สวัสดีวันอังคาร
+                                        {{ i.message }}
                                     </div>
                                     <div class="message-info">
-                                        12:34 | Ohm
+                                        12:34 | {{ i.sender }}
                                     </div>
                                 </td>
                             </tr>
                         </table>
                     </div>
                 </div>
+                {% endif %}
+                {% endfor %}
             </div>
             <div id="chat-input">
                 <form action="" method="post" id="msg-form">
-                    <!-- {% csrf_token %} -->
+                    {% csrf_token %}
                     <input type="text" id="message" name="message" placeholder="ระบุข้อความที่ต้องการส่ง" />
                     <div style="padding: 2px;"></div>
                     <button type="submit">ส่งข้อความ</button>
                 </form>
             </div>
         </div>
+
+        <script>
+            const socketURL = `ws://${window.location.host}/ws/messages/{{room_name}}/`
+            console.log("Entablishing Socket Connection")
+            const socket = new WebSocket(socketURL)
+
+            // send messages to the backend after connect with socket that make it realtime
+            const message_form = document.getElementById("msg-form")
+            message_form.addEventListener("submit", function (event) {
+                event.preventDefault()
+                let message_sent = document.getElementById("message").value
+                socket.send(
+                    JSON.stringify({
+                        message:message_sent,
+                        room_name:"{{ room_name }}",
+                        sendman:"{{ username }}",
+                    })
+                )
+            })
+
+            const chat_div = document.getElementById("chat-display")
+
+                    // scroll to bottom function
+            const scrollTobottom = () => {
+                chat_div.scrollTop = chat_div.scrollHeight
+            }
+
+                    // recieve message from backend
+            socket.addEventListener("message", (e) => {
+                const data = JSON.parse(e.data)["message"]
+
+                let sender = data["sendman"]
+                let content = data["message"]
+
+                if (sender == "{{ username }}"){
+                    document.getElementById("message").value = ""
+                }
+
+                if (sender == "{{ username }}"){
+                    chat_div.innerHTML += `<div class="message-me message">
+                    <div>
+                        <table border="0" width="100%">
+                            <tr>
+                                <td>
+                                    <div class="message-content">
+                                        ${content}
+                                    </div>
+                                    <div class="message-info">
+                                        12:34 | ${sender}
+                                    </div>
+                                </td>
+                                <td width="2"></td>
+                                <td width="32">
+                                    <img src="{%static 'res/player.png'%}" class="message-profile" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>`
+                } else {
+                chat_div.innerHTML += `<div class="message-friend message">
+                    <div>
+                        <table border="0" width="100%">
+                            <tr>
+                                <td width="32">
+                                    <img src="{%static 'res/player.png'%}" class="message-profile" />
+                                </td>
+                                <td width="2"></td>
+                                <td>
+                                    <div class="message-content">
+                                        ${content}
+                                    </div>
+                                    <div class="message-info">
+                                        12:34 | ${sender}
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>`
+                }
+                scrollTobottom()
+                console.log("Message sent")
+            })
+
+
+        </script>
+
     </body>
 </html>
