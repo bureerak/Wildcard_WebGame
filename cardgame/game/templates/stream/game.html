@@ -186,7 +186,7 @@
             <div id="chat-input">
                 <form action="" method="post" id="msg-form">
                     {% csrf_token %}
-                    <input type="text" id="message" name="message" placeholder="ระบุข้อความที่ต้องการส่ง" />
+                    <input type="text" id="message" name="message" placeholder="ระบุข้อความที่ต้องการส่ง" maxlength="256" required />
                     <div style="padding: 2px;"></div>
                     <button type="submit">ส่งข้อความ</button>
                 </form>
