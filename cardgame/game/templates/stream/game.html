@@ -86,6 +86,7 @@
         </script>
     </head>
     <body>
+        <div id="game-body"></div>
         <div id="menuBtn"></div>
         <div id="playerBar">
             <div id="player1" class="player-icon">
@@ -110,17 +111,8 @@
         <div id="cardBlock">
             <img src="{%static 'res/card/1.png'%}" class="cardBl" width="100%" />
         </div>
+        <div id="cardMe-back"></div>
         <div id="cardMe">
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
             <img src="{%static 'res/card/1.png'%}" class="myCard" />
             <img src="{%static 'res/card/1.png'%}" class="myCard" />
             <img src="{%static 'res/card/1.png'%}" class="myCard" />
@@ -132,7 +124,7 @@
         </div>
         <div id="chat-container">
             <div id="chat-title">
-                <button type="button" onclick="hideChat()">></button>&nbsp;
+                <button type="submit" onclick="hideChat()">></button>&nbsp;
                 Chat
             </div>
             <div id="chat-display">
@@ -213,13 +205,7 @@
             })
 
             const chat_div = document.getElementById("chat-display")
-
-                    // scroll to bottom function
-            const scrollTobottom = () => {
-                chat_div.scrollTop = chat_div.scrollHeight
-            }
-
-                    // recieve message from backend
+            // recieve message from backend
             socket.addEventListener("message", (e) => {
                 const data = JSON.parse(e.data)["message"]
 
@@ -229,55 +215,10 @@
                 if (sender == "{{ username }}"){
                     document.getElementById("message").value = ""
                 }
-
-                if (sender == "{{ username }}"){
-                    chat_div.innerHTML += `<div class="message-me message">
-                    <div>
-                        <table border="0" width="100%">
-                            <tr>
-                                <td>
-                                    <div class="message-content">
-                                        ${content}
-                                    </div>
-                                    <div class="message-info">
-                                        12:34 | ${sender}
-                                    </div>
-                                </td>
-                                <td width="2"></td>
-                                <td width="32">
-                                    <img src="{%static 'res/player.png'%}" class="message-profile" />
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>`
-                } else {
-                chat_div.innerHTML += `<div class="message-friend message">
-                    <div>
-                        <table border="0" width="100%">
-                            <tr>
-                                <td width="32">
-                                    <img src="{%static 'res/player.png'%}" class="message-profile" />
-                                </td>
-                                <td width="2"></td>
-                                <td>
-                                    <div class="message-content">
-                                        ${content}
-                                    </div>
-                                    <div class="message-info">
-                                        12:34 | ${sender}
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>`
-                }
+                addMessage(content, sender, "00:00", sender == "{{ username }}" ? 0 : 1)
                 scrollTobottom()
                 console.log("Message sent")
             })
-
-
         </script>
 
     </body>

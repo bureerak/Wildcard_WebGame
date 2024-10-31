@@ -17,6 +17,19 @@
     }
 }
 
+#game-body {
+    top: -2px;
+    left: -2px;
+    position: fixed;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    background-image: url("/static/res/game.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    filter: blur(2px);
+    -webkit-filter: blur(2px);
+}
+
 .fadeIn {
     animation-name: fadeIN;
     animation-duration: 1.5s;
@@ -184,17 +197,18 @@ form {
 }
 
 #playerBar {
-    top: 0;
+    top: 12px;
     left: 50%;
     margin-top: 2px;
-    padding: 8px;
+    padding: 12px 2px;
     position: fixed;
     transform: translate(-50%, 0);
     width: 36vw;
     max-width: 1000px;
     min-width: 360px;
     height: 80px;
-    background-color: red;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
     display: grid;
     column-gap: 16px;
     grid-template-columns: auto auto auto
@@ -225,7 +239,6 @@ form {
 }
 
 #cardMe {
-    background-color: blue;
     top: 100%;
     left: 50%;
     transform: translate(-50%, -100%);
@@ -238,6 +251,18 @@ form {
     overflow-x: auto;
     overflow-y: hidden;
     padding-top: 100px;
+}
+
+#cardMe-back {
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -200px);
+    position: fixed;
+    width: 71vw;
+    height: 200px;
+    padding: 16px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
 }
 
 #cardBlock {
@@ -259,6 +284,7 @@ form {
     height: auto;
     transition: 0.4s;
     cursor: pointer;
+    border-radius: 4px;
 }
 
 .myCard:not(:first-child) {
@@ -281,7 +307,7 @@ form {
     top: 50%;
     right: 0;
     transform: translate(0%, -50%);
-    background-color: yellow;
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 16px 0 0 16px;
     position: fixed;
     transition: all 1s ease;
