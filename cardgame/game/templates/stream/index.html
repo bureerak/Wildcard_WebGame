@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Home</title>
         <link rel="stylesheet" type="text/css" href="{%static 'res/css/game.css'%}" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             function splashScreen() {
                 setTimeout( function() {
@@ -82,5 +83,14 @@
                 <img src="{%static 'res/logo.png'%}" />
             </div>
         </div>
+        {% if message %}
+        <script>
+            Swal.fire({
+                icon: "{{ message.icon }}",
+                title: "{{ message.title }}",
+                text: "{{ message.text }}"
+            });
+        </script>
+        {% endif %}
     </body>
 </html>
