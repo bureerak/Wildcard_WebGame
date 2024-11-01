@@ -13,6 +13,7 @@ def home_page(request):
         except Room.DoesNotExist:
             # สร้างห้องใหม่ถ้าไม่มีห้องนี้อยู่
             existing_room = Room.objects.create(room_name=room)
+            existing_room.initialize_deck()
 
         # ตรวจสอบจำนวนผู้เล่นและชื่อซ้ำกัน
         players = existing_room.data.get("players", [])
@@ -49,9 +50,17 @@ def home_page(request):
 def in_game(request, room_name, username):
     existing_room = Room.objects.get(room_name=room_name)
     get_message = Message.objects.filter(room=existing_room)
+    players = existing_room.data.get("players", [])
+    in_hands = {}
+    if len(players) >= 4:
+        existing_room.deal_cards()
+        in_hands = {}
+        for i in players:
+            in_hands.update({i:existing_room.data[i]})
     context = {
         "messages":get_message,
         "username":username,
         "room_name":existing_room.room_name,
+        "all_hands":in_hands.get(username,{}),
     }
     return render(request, 'stream/game.html', context)
