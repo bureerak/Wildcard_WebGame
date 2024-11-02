@@ -8,6 +8,8 @@ class Room(models.Model):
     deck = models.JSONField(default=list)  # เก็บการ์ดทั้งหมดในสำรับ
     discard_pile = models.JSONField(default=list)  # เก็บการ์ดที่เล่นแล้ว
 
+    last_joined = models.DateTimeField(auto_now=True)
+
     def initialize_deck(self):
         """ฟังก์ชันสำหรับสร้างการ์ดใน Deck"""
         deck = []
@@ -17,7 +19,7 @@ class Room(models.Model):
             # การ์ด 0 มี 1 ใบต่อสี
             deck.append({'color': color, 'number': 0})
             # การ์ด 1-9 มีอย่างละ 2 ใบต่อสี
-            for number in range(1, 10):
+            for number in range(1, 13):
                 deck.append({'color': color, 'number': number})
                 deck.append({'color': color, 'number': number})
         

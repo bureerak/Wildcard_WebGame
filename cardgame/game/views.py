@@ -37,10 +37,6 @@ def home_page(request):
             })
 
         request.session["username"] = username # บันทึกชื่อผู้เล่นลงใน session
-        # เพิ่มผู้เล่นใหม่ลงในฟิลด์ players
-        players.append(username)
-        existing_room.data["players"] = players
-        existing_room.save()
 
         # เปลี่ยนเส้นทางไปยัง in_game view
         return redirect("in_game", room_name=room, username=username)
