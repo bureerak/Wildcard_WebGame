@@ -45,6 +45,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await self.send(text_data=json.dumps({"message": response}))
     
+    async def wait_and_delete_room_if_empty(self):
+        """รอ 3 วินาที แล้วตรวจสอบว่าห้องว่างหรือไม่ ถ้าว่างก็ลบห้อง"""
+        await asyncio.sleep(3)  # รอ 3 วินาที
+        await self.delete_room_if_empty()
+
     @database_sync_to_async
     def create_message(self, data):
         get_room = Room.objects.get(room_name=data['room_name'])
@@ -63,11 +68,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 room.save()
         except Room.DoesNotExist:
             pass
-
-    async def wait_and_delete_room_if_empty(self):
-        """รอ 3 วินาที แล้วตรวจสอบว่าห้องว่างหรือไม่ ถ้าว่างก็ลบห้อง"""
-        await asyncio.sleep(3)  # รอ 3 วินาที
-        await self.delete_room_if_empty()
 
     @database_sync_to_async
     def delete_room_if_empty(self):
