@@ -12,20 +12,54 @@
             }
 
             .project-container {
-                top: 0;
                 background-color: rgba(255, 255, 255, 0.8);
                 width: 85%;
                 min-width: 100px;
-                margin: auto;
-                padding-top: 72px;
+                margin: 96px auto auto auto;
+                border-radius: 16px;
+            }
+
+            .project-container:last-child {
+                padding-bottom: 16px;
             }
 
             .myimg label {
                 font-size: smaller;
             }
 
+            .myimg span {
+                font-weight: bold;
+            }
+
             .myimg {
                 text-align: center;
+            }
+
+            .project-name {
+                text-align: center;
+                margin: auto auto 16px auto;
+                padding-top: 16px;
+            }
+
+            .project-name label:first-child {
+                font-size: 8vw;
+                font-weight: bold;
+                color: rgb(56, 127, 57);
+                text-shadow: 4px 4px 10px #6E6E6E;
+            }
+
+            .info-tools {
+                max-width: 75%;
+                margin: auto;
+            }
+
+            .info-tools .title {
+                font-size: x-large;
+                font-weight: bold;
+            }
+
+            ul {
+                margin-top: 4px;
             }
         </style>
     </head>
@@ -35,7 +69,7 @@
             <div class="navcon">
                 <div>
                     <img src="{%static 'res/player.png'%}" width="32" height="32" />
-                    <label>&nbsp; PSCP_Project_101</label>
+                    <label>&nbsp; WildCard</label>
                 </div>
                 <div>
                     <a href="/">เล่นเกม</a>
@@ -45,25 +79,16 @@
             </div>
         </nav>
         <div class="project-container">
+            <div class="project-name">
+                <label>
+                    WildCard Project
+                </label>
+                <br>
+                <label>
+                    การ์ดเกมปัญหาสิ่งแวดล้อม
+                </label>
+            </div>
             <div class="myimg">
-                <div>
-                    <img src="https://www.it.kmitl.ac.th/~it67070057/nacopter123-profile.jpg" width="100%" class="img-profile">
-                    <label>
-                        นายทีปดา ชื่นเปรมปรีดิ์<br>
-                    </label>
-                    <label>
-                        รหัสนักศึกษา 67070057
-                    </label>
-                </div>
-                <div>
-                    <img src="{%static 'res/img2.jpg'%}" width="100%" class="img-profile">
-                    <label>
-                        นายธรรรัตน์ พิริยะพงศธร<br>
-                    </label>
-                    <label>
-                        รหัสนักศึกษา 67070073
-                    </label>
-                </div>
                 <div>
                     <img src="{%static 'res/img3.jpg'%}" width="100%" class="img-profile">
                     <label>
@@ -72,15 +97,23 @@
                     <label>
                         รหัสนักศึกษา 67070100
                     </label>
+                    <span>
+                        Backend
+                        Developer
+                    </span>
                 </div>
                 <div>
-                    <img src="{%static 'res/img4.jpg'%}" width="100%" class="img-profile">
+                    <img src="https://www.it.kmitl.ac.th/~it67070057/nacopter123-profile.jpg" width="100%" class="img-profile">
                     <label>
-                        นายธนชาติ แซ่อ้วง<br>
+                        นายทีปดา ชื่นเปรมปรีดิ์<br>
                     </label>
                     <label>
-                        รหัสนักศึกษา 67070062
+                        รหัสนักศึกษา 67070057
                     </label>
+                    <span>
+                        Frontend
+                        Developer
+                    </span>
                 </div>
                 <div>
                     <img src="{%static 'res/img5.jpg'%}" width="100%" class="img-profile">
@@ -90,15 +123,63 @@
                     <label>
                         รหัสนักศึกษา 67070070
                     </label>
+                    <span>
+                        Game
+                        Designer
+                    </span>
+                </div>
+                <div>
+                    <img src="{%static 'res/img4.jpg'%}" width="100%" class="img-profile">
+                    <label>
+                        นายธนชาติ แซ่อ้วง<br>
+                    </label>
+                    <label>
+                        รหัสนักศึกษา 67070062
+                    </label>
+                    <span>
+                        Game
+                        Designer
+                    </span>
+                </div>
+                <div>
+                    <img src="{%static 'res/img2.jpg'%}" width="100%" class="img-profile">
+                    <label>
+                        นายธรรรัตน์ พิริยะพงศธร<br>
+                    </label>
+                    <label>
+                        รหัสนักศึกษา 67070073
+                    </label>
+                    <span>
+                        Game
+                        Designer
+                    </span>
                 </div>
             </div>
             <div class="myinfo">
-                <label for="">
-                    โปรเจกต์นี้กี่ยวกับการสร้างเว็บไซต์เกมการ์ดที่สามารถเล่นออนไลน์ได้ โดยผู้เล่นสามารถเล่นได้พร้อมกันหลายคน เพื่อเข้าร่วมและแข่งขันกับผู้เล่นคนอื่นๆ ได้อย่างพร้อมเพรียง ซึ่งเกมนี้ถูกออกแบบมาเพื่อให้ผู้เล่น ได้บริหารการ์ดที่มีอยู่ในมือ และจัดสรรลำดับการใช้การ์ดได้อย่างมีประสิทธิภาพ
-                    การสร้างเว็บไซต์เกมการ์ดนี้จะเป็นสื่อการเรียนรู้และปลูกฝังความรู้เรื่องธรรมชาติพร้อมทั้งสอดแทรกความสนุกไปในตัว  และเข้าถึงได้ง่ายเนื่องจากเป็นเว็บไซต์เกมจึงสามารถเล่นได้จากทุกๆที่
+                <label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;โปรเจกต์ “WildCard” เกี่ยวกับการสร้างเว็บไซต์เกมการ์ดที่แฝงไปด้วยความรู้ทางด้านมลพิษและมลภาวะที่เกิดขึ้นจริงในปัจจุบันพร้อมทั้งวิธีการแก้ปัญหาต่าง ๆ โดนผู้เล่นสามารถทำการเล่นได้ผ่านทางระบบออนไลน์ด้วยเว็บเบราว์เซอร์บนอุปกรณ์ต่าง ๆ และผู้เล่นยังสามารถเล่นได้พร้อมกันหลายคน เพื่อเข้าร่วมและแข่งขันกับผู้เล่นคนอื่น ๆ ได้อย่างพร้อมเพรียง ซึ่งเกมนี้ถูกออกแบบมาเพื่อให้ผู้เล่นได้บริหารการ์ดที่มีอยู่ในมือและจัดสรรลำดับการใช้การ์ดได้อย่างมีประสิทธิภาพ
+                    การสร้างเว็บไซต์เกมการ์ดนี้จะเป็นสื่อการเรียนรู้และปลูกฝังความรู้เรื่องธรรมชาติพร้อมทั้งสอดแทรกความสนุกไปในตัว  และเข้าถึงได้ง่ายเนื่องจากเป็นเว็บไซต์เกมจึงสามารถเล่นได้จากทุก ๆ ที่
                     เรามุ่งหวังที่จะสร้างประสบการณ์การเล่นเกมที่สนุกสนานและได้ความรู้ความตระหนักถึงสิ่งแวดล้อม
-                    และ สามารถนำไปต่อยอดได้สำหรับผู้ที่สนใจ
+                    และสามารถนำไปต่อยอดได้สำหรับผู้ที่สนใจ
                 </label>
+            </div>
+            <div class="info-tools">
+                <div class="title">
+                    Development Tools
+                </div>
+                <div class="content">
+                    Frontend Development
+                </div>
+                <div class="subcontent">
+                    <ul>
+                        <li>
+                            HTML
+                        </li>
+                        <li>
+                            CSS
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </body>

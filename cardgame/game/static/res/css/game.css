@@ -19,10 +19,11 @@
 
 .myimg{
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: 20% 20% 20% 20% 20%;
     max-width: 75%;
     margin: auto;
 }
+
 .img-profile{
     border-radius: 100%;
 }
@@ -32,11 +33,9 @@
 }
 
 .myinfo{
-    padding: 0 64px;
-    margin-top: 32px;
-}
-.myinfo label{
-    font-size: x-large;
+    max-width: 81%;
+    margin: 16px auto;
+    line-height: 26px;
 }
 
 #game-body {
