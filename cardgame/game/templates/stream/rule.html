@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>การแจ้งเตือน</title>
     <style>
         body {
             display: flex;
@@ -12,24 +11,37 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-image: url(https://c.wallhere.com/photos/e6/ee/1920x1080_px_landscape_nature-1092211.jpg!d);
+            position: relative;
+        }
+        
+        .background-blur {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url(https://lh3.googleusercontent.com/pw/AP1GczOLGwQL7MUPWFr-JmKBgnhK_7vVUGDnMdNE_QnBuS61I28w0Rq8epxLUhk_t8nO7tY1gr5bJf7b5c81ijcglzxZ-g57dgUlhHnIDz6sSB97CyogPjWP8YQjTYWDLkVcdw6O_Xz_cDTAFEIJtK_Uw8cZ=w1418-h945-s-no-gm?authuser=0);
             background-size: cover;
             background-position: center;
+            filter: blur(5px);
+            z-index: 0;
         }
         
         .notification-box {
-            background-color: #333;
-            color: white;
+            color: rgb(0, 0, 0);
             padding: 20px;
             border-radius: 8px;
             text-align: center;
             width: 100%;
             max-width: 400px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            background-color: rgba(247, 242, 242, 0.9);
+            position: relative;
+            z-index: 1;
         }
         
         .notification-box h2 {
-            background-color: #FFA500;
+            background-color: #7be44b;
             padding: 10px;
             border-radius: 4px;
             margin: 0;
@@ -41,7 +53,7 @@
         }
         
         button {
-            background-color: #e59400;
+            background-color: #7be44b;
             color: rgb(0, 0, 0);
             border: none;
             padding: 10px 20px;
@@ -51,12 +63,14 @@
         }
         
         button:hover {
-            background-color: #e59400;
+            background-color: #7be44b;
         }
     </style>
 </head>
 
 <body>
+    <div class="background-blur"></div>
+    <!-- div สำหรับภาพเบลอ -->
     <div class="notification-box">
         <h2>วิธีการเล่น</h2>
         <p>จนตอนนี้กุก็ยังไม่รู้</p>
@@ -68,7 +82,7 @@
     </div>
     <script>
         function goback() {
-            window.history.back;
+            window.history.back();
         }
     </script>
 
