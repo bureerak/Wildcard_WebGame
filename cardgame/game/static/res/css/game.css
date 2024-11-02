@@ -17,6 +17,28 @@
     }
 }
 
+.myimg{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    max-width: 75%;
+    margin: auto;
+}
+.img-profile{
+    border-radius: 100%;
+}
+
+.myimg div{
+    padding: 16px;
+}
+
+.myinfo{
+    padding: 0 64px;
+    margin-top: 32px;
+}
+.myinfo label{
+    font-size: x-large;
+}
+
 #game-body {
     top: -2px;
     left: -2px;
@@ -126,6 +148,7 @@ form {
     filter: blur(6px);
     -webkit-filter: blur(6px);
     position: fixed;
+    z-index: -1;
 }
 
 .box-container {

@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>การแจ้งเตือน</title>
+    <title>Rule | WildCard</title>
+    <link rel="stylesheet" type="text/css" href="{%static 'res/css/game.css'%}" />
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -58,6 +59,19 @@
 </head>
 
 <body>
+    <nav id="navbar">
+        <div class="navcon">
+            <div>
+                <img src="{%static 'res/player.png'%}" width="32" height="32" />
+                <label>&nbsp; WildCard</label>
+            </div>
+            <div>
+                <a href="/">เล่นเกม</a>
+                <a href="#">วิธีเล่น</a>
+                <a href="/project">เกี่ยวกับโปรเจค</a>
+            </div>
+        </div>
+    </nav>
     <div class="notification-box">
         <h2>วิธีการเล่น</h2>
         <p>จนตอนนี้กุก็ยังไม่รู้</p>

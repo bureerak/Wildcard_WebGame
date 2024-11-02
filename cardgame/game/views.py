@@ -3,6 +3,12 @@ from .models import Room, Message
 
 # Create your views here.
 
+def rule_page(request):
+    return render(request, 'stream/rule.html')
+
+def project_page(request):
+    return render(request, 'stream/project.html')
+
 def home_page(request):
     if request.method == "POST":
         username = request.POST["username"]
