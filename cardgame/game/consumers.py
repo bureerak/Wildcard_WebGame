@@ -88,7 +88,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "sendman": data["sendman"],
             "message": data["message"],
         }
-        await self.send(text_data=json.dumps({"type": "send_message","message": response}))
+        await self.send(text_data=json.dumps({
+            "type": "send_message",
+            "message": response
+        }))
     
     async def wait_and_delete_room_if_empty(self):
         """รอ 3 วินาที แล้วตรวจสอบว่าห้องว่างหรือไม่ ถ้าว่างก็ลบห้อง"""

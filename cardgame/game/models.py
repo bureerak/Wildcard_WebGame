@@ -7,6 +7,7 @@ import json
 
 class Room(models.Model):
     room_name = models.CharField(max_length=50)
+    problem_card = models.JSONField(default=list)
     data = models.JSONField(default=dict)
     deck = models.JSONField(default=list)  # เก็บการ์ดทั้งหมดในสำรับ
     discard_pile = models.JSONField(default=list)  # เก็บการ์ดที่เล่นแล้ว
@@ -15,22 +16,38 @@ class Room(models.Model):
 
     def initialize_deck(self):
         """ฟังก์ชันสำหรับสร้างการ์ดใน Deck"""
+        color = ["Green","Gray","Orange","Yellow","Purple","Blue"]
+        color_pairs = [
+        ("Green", "Gray"),
+        ("Green", "Orange"),
+        ("Green", "Yellow"),
+        ("Green", "Purple"),
+        ("Green", "Blue"),
+        ("Gray", "Orange"),
+        ("Gray", "Yellow"),
+        ("Gray", "Purple"),
+        ("Gray", "Blue"),
+        ("Orange", "Yellow"),
+        ("Orange", "Purple"),
+        ("Orange", "Blue"),
+        ("Yellow", "Purple"),
+        ("Yellow", "Blue"),
+        ("Purple", "Blue")]
         deck = []
-        colors = ["red", "blue", "green", "yellow"]
-        
-        for color in colors:
-            # การ์ด 0 มี 1 ใบต่อสี
-            deck.append({'color': color, 'number': 0})
-            # การ์ด 1-9 มีอย่างละ 2 ใบต่อสี
-            for number in range(1, 13):
-                deck.append({'color': color, 'number': number})
-                deck.append({'color': color, 'number': number})
-        
+        prop_deck = []
+        for color1,color2 in color_pairs:
+            deck.append({'color1': color1, 'color2': color2})
+            deck.append({'color1': color1, 'color2': color2})
+        for i in color:
+            prop_deck.append({'prob':i})
+            prop_deck.append({'prob':i})
+        random.shuffle(prop_deck)
         random.shuffle(deck)
         self.deck = deck
+        self.problem_card = prop_deck
         self.save()
 
-    def deal_cards(self, num_cards=7):
+    def deal_cards(self, num_cards=3):
         """ฟังก์ชันสำหรับแจกการ์ดให้ผู้เล่นแต่ละคนเมื่อมีผู้เล่นครบ 4 คน"""
         players = self.data.get("players", [])
         if len(players) < 4:
