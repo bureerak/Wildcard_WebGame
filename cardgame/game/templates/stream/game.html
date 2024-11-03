@@ -89,18 +89,14 @@
         <div id="game-body"></div>
         <div id="menuBtn"></div>
         <div id="playerBar">
+            {% for player in players %}
+            {% if player != username %}
             <div id="player1" class="player-icon">
-                <label>Copter</label>
+                <label>{{player}}</label>
                 <img src="{%static 'res/player.png'%}" />
             </div>
-            <div id="player1" class="player-icon">
-                <label>Copter</label>
-                <img src="{%static 'res/player.png'%}" />
-            </div>
-            <div id="player1" class="player-icon">
-                <label>Copter</label>
-                <img src="{%static 'res/player.png'%}" />
-            </div>
+            {% endif %}
+            {% endfor %}
         </div>
         <div id="cardStack">
             <img src="{%static 'res/card/1.png'%}" width="100%" />
@@ -207,18 +203,37 @@
             const chat_div = document.getElementById("chat-display")
             // recieve message from backend
             socket.addEventListener("message", (e) => {
-                const data = JSON.parse(e.data)["message"]
-
-                let sender = data["sendman"]
-                let content = data["message"]
-
-                if (sender == "{{ username }}"){
-                    document.getElementById("message").value = ""
+                const chaneldata = JSON.parse(e.data);
+                
+                if (chaneldata.type === "send_message") {
+                    const data = chaneldata.message;
+                    const sender = data["sendman"];
+                    const content = data["message"];
+            
+                    if (sender === "{{ username }}") {
+                        document.getElementById("message").value = "";
+                    }
+                    
+                    addMessage(content, sender, "00:00", sender === "{{ username }}" ? 0 : 1);
+                    scrollTobottom();
+                    console.log("Message sent");
+            
+                } else if (chaneldata.type === "player_list") {
+                    const players = chaneldata.players;
+                    const playerBar = document.getElementById("playerBar");
+                    playerBar.innerHTML = '';
+                    
+                    players.forEach(player => {
+                        const playerDiv = document.createElement('div');
+                        playerDiv.classList.add('player-icon');
+                        playerDiv.innerHTML = `
+                            <label>${player}</label>
+                            <img src="{% static 'res/player.png' %}" />
+                        `;
+                        playerBar.appendChild(playerDiv);
+                    });
                 }
-                addMessage(content, sender, "00:00", sender == "{{ username }}" ? 0 : 1)
-                scrollTobottom()
-                console.log("Message sent")
-            })
+            });
         </script>
 
     </body>
