@@ -53,17 +53,10 @@ def in_game(request, room_name, username):
     existing_room = Room.objects.get(room_name=room_name)
     get_message = Message.objects.filter(room=existing_room)
     players = existing_room.data.get("players", [])
-    in_hands = {}
-    if len(players) >= 4:
-        existing_room.deal_cards()
-        in_hands = {}
-        for i in players:
-            in_hands.update({i:existing_room.data[i]})
     context = {
         "messages":get_message,
         "username":username,
         "room_name":existing_room.room_name,
-        "all_hands":in_hands.get(username,{}),
-        "players":players
+        "players":players,
     }
     return render(request, 'stream/game.html', context)

@@ -215,7 +215,6 @@
                     }
                     
                     addMessage(content, sender, "00:00", sender === "{{ username }}" ? 0 : 1);
-                    scrollTobottom();
                     console.log("Message sent");
             
                 } else if (chaneldata.type === "player_list") {
@@ -232,6 +231,10 @@
                         `;
                         playerBar.appendChild(playerDiv);
                     });
+                } else if (chaneldata.type === "hands_update"){
+                    const hands = chaneldata.hands
+                    const currentPlayer = "{{ username }}"
+                    console.log(hands[currentPlayer])
                 }
             });
         </script>

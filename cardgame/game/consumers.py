@@ -3,6 +3,7 @@ import asyncio
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from .models import Room, Message
+from asgiref.sync import sync_to_async
 
 class ChatConsumer(AsyncWebsocketConsumer):
 
@@ -16,6 +17,23 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await self.channel_layer.group_add(self.room_name, self.channel_name)
         await self.accept()
+
+        room = await sync_to_async(Room.objects.get)(room_name=self.room_name[5:])
+        players = room.data.get("players", [])
+        # ตรวจสอบว่าผู้เล่นครบ 4 คนหรือยัง
+        if len(players) == 4:
+            # เรียกใช้ deal_cards เมื่อผู้เล่นครบ 4 คน
+            await sync_to_async(room.deal_cards)()
+
+            # ส่งข้อมูลการ์ดให้ผู้เล่นผ่าน WebSocket
+            await self.channel_layer.group_send(
+                self.room_name,
+                {
+                    "type": "send_hand",
+                    "hands": room.data,
+                }
+            )
+
 
     async def disconnect(self, code):
         await self.remove_player_from_room()
@@ -53,6 +71,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             "type": "player_list",
             "players": players
+        }))
+
+    async def send_hand(self, event):
+        hands = event["hands"]
+        # ส่งข้อมูลการ์ดไปยัง WebSocket ของผู้เล่น
+        await self.send(text_data=json.dumps({
+            "type": "hands_update",
+            "hands": hands
         }))
 
     async def send_message(self, event):

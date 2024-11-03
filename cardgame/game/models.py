@@ -1,5 +1,8 @@
 from django.db import models
 import random
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+import json
 # Create your models here.
 
 class Room(models.Model):
@@ -28,8 +31,10 @@ class Room(models.Model):
         self.save()
 
     def deal_cards(self, num_cards=7):
-        """ฟังก์ชันสำหรับแจกการ์ดให้ผู้เล่นแต่ละคน"""
+        """ฟังก์ชันสำหรับแจกการ์ดให้ผู้เล่นแต่ละคนเมื่อมีผู้เล่นครบ 4 คน"""
         players = self.data.get("players", [])
+        if len(players) < 4:
+            return  # รอจนกว่าจะมีผู้เล่นครบ 4 คน
         for player in players:
             player_hand = []
             for _ in range(num_cards):
