@@ -58,5 +58,6 @@ def in_game(request, room_name, username):
         "username":username,
         "room_name":existing_room.room_name,
         "all_hands":in_hands.get(username,{}),
+        "players":players
     }
     return render(request, 'stream/game.html', context)

@@ -12,6 +12,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # ดึงห้องจากฐานข้อมูลแล้วเพิ่มชื่อผู้เล่น
         await self.add_player_to_room()
+        await self.update_players()
 
         await self.channel_layer.group_add(self.room_name, self.channel_name)
         await self.accept()
@@ -19,31 +20,49 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, code):
         await self.remove_player_from_room()
         await self.channel_layer.group_discard(self.room_name, self.channel_name)
-        
+        await self.update_players()
         # เริ่มตั้งเวลา 3 วินาทีเพื่อตรวจสอบการลบห้อง
         await self.wait_and_delete_room_if_empty()
         self.close(code)
 
     async def receive(self, text_data):
         data_json = json.loads(text_data)
+        if data_json.get("message",None) != None:
+            event = {
+                "type": "send_message",
+                "message": data_json,
+            }
+            await self.channel_layer.group_send(self.room_name, event)
 
-        event = {
-            "type": "send_message",
-            "message": data_json,
-        }
+    async def update_players(self):
+        room = await database_sync_to_async(Room.objects.get)(room_name=self.room_name[5:])
+        players = room.data.get("players", [])
 
-        await self.channel_layer.group_send(self.room_name, event)
+        # ส่งข้อมูลรายชื่อผู้เล่นไปยังทุกคนในห้อง
+        await self.channel_layer.group_send(
+            self.room_name,
+            {
+                "type": "player_list",
+                "players": players
+            }
+        )
+
+    # ฟังก์ชัน handler สำหรับการส่งรายชื่อผู้เล่นไปยัง frontend
+    async def player_list(self, event):
+        players = event["players"]
+        await self.send(text_data=json.dumps({
+            "type": "player_list",
+            "players": players
+        }))
 
     async def send_message(self, event):
         data = event["message"]
         await self.create_message(data=data)
-
         response = {
             "sendman": data["sendman"],
             "message": data["message"],
         }
-
-        await self.send(text_data=json.dumps({"message": response}))
+        await self.send(text_data=json.dumps({"type": "send_message","message": response}))
     
     async def wait_and_delete_room_if_empty(self):
         """รอ 3 วินาที แล้วตรวจสอบว่าห้องว่างหรือไม่ ถ้าว่างก็ลบห้อง"""
