@@ -109,11 +109,7 @@
         </div>
         <div id="cardMe-back"></div>
         <div id="cardMe">
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
-            <img src="{%static 'res/card/1.png'%}" class="myCard" />
+        {% comment %} พื้นที่ Card {% endcomment %}
         </div>
         <div id="chat-hide" onclick="showChat()">
             <img src="{%static 'res/chat.png'%}" width="40" />
@@ -223,6 +219,7 @@
                     playerBar.innerHTML = '';
                     
                     players.forEach(player => {
+                        if (player !== "{{ username }}") {
                         const playerDiv = document.createElement('div');
                         playerDiv.classList.add('player-icon');
                         playerDiv.innerHTML = `
@@ -230,10 +227,21 @@
                             <img src="{% static 'res/player.png' %}" />
                         `;
                         playerBar.appendChild(playerDiv);
+                    }
                     });
                 } else if (chaneldata.type === "hands_update"){
                     const hands = chaneldata.hands
                     const currentPlayer = "{{ username }}"
+
+                    const my_card = document.getElementById("cardMe");
+                    const my_hand = hands[currentPlayer]
+                    my_hand.forEach(card => {
+                        const imgElement = document.createElement('img')
+                        imgElement.src = `{% static 'res/card/1.png' %}`; // เปลี่ยน ${i} เป็นหมายเลขการ์ด
+                        imgElement.className = 'myCard';
+                        // เพิ่ม element <img> ลงใน container
+                        my_card.appendChild(imgElement);
+                    })
                     console.log(hands[currentPlayer])
                 }
             });
