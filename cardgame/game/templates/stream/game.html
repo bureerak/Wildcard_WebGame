@@ -92,8 +92,8 @@
             {% for player in players %}
             {% if player != username %}
             <div id="player1" class="player-icon">
+                <img src="{%static 'res/player.png'%}" /><br>
                 <label>{{player}}</label>
-                <img src="{%static 'res/player.png'%}" />
             </div>
             {% endif %}
             {% endfor %}
@@ -223,8 +223,8 @@
                         const playerDiv = document.createElement('div');
                         playerDiv.classList.add('player-icon');
                         playerDiv.innerHTML = `
+                            <img src="{% static 'res/player.png' %}" /><br>
                             <label>${player}</label>
-                            <img src="{% static 'res/player.png' %}" />
                         `;
                         playerBar.appendChild(playerDiv);
                     }
