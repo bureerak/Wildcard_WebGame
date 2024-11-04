@@ -94,7 +94,7 @@
             <div id="player1" class="player-icon">
                 <img src="{%static 'res/player.png'%}" /><br>
                 <label>{{player}}</label><br>
-                <label id="player1-score" class="score">100</label>
+                <label id="{{player}}-score" class="score">100</label>
             </div>
             {% endif %}
             {% endfor %}
@@ -226,7 +226,7 @@
                         playerDiv.innerHTML = `
                             <img src="{% static 'res/player.png' %}" /><br>
                             <label>${player}</label><br>
-                            <label id="player1-score" class="score">100</label>
+                            <label id="${player}-score" class="score">100</label>
                         `;
                         playerBar.appendChild(playerDiv);
                     }
