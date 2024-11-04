@@ -218,6 +218,79 @@ form {
     position: fixed;
 }
 
+@keyframes mycenter {
+    0% {
+        top: -100vh;
+    }
+
+    100% {
+        top: 0;
+    }
+}
+
+.score {
+    font-size: small;
+}
+
+#cardCenter {
+    top: 50%;
+    left: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+}
+
+.tilt01 {
+    rotate: 0deg;
+}
+
+.tilt02 {
+    rotate: -2deg;
+}
+
+.tilt03 {
+    rotate: 4deg;
+}
+
+.tilt04 {
+    rotate: 2deg;
+}
+
+.tilt05 {
+    rotate: -4deg;
+}
+
+.card-center {
+    top: 50%;
+    left: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    border-radius: 4px;
+    position: fixed;
+    box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-center-animation {
+    animation-name: mycenter;
+    animation-duration: 0.5s;
+}
+
+#playerStatus {
+    top: 14px;
+    right: 14px;
+    position: fixed;
+    width: 104px;
+    height: 108px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    text-align: center;
+}
+
+#playerStatus img {
+    width: 60px;
+    height: auto;
+    margin-top: 10px;
+}
+
 #playerBar {
     top: 12px;
     left: 50%;
@@ -228,7 +301,7 @@ form {
     width: 36vw;
     max-width: 1000px;
     min-width: 360px;
-    height: 80px;
+    height: 108px;
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 8px;
     display: grid;
@@ -254,10 +327,11 @@ form {
     left: calc(-72px - 1vw);
     position: fixed;
     transform: translate(-50%, 0);
-    max-width: 200px;
+    max-width: 180px;
     width: 25vw;
     height: auto;
     rotate: 90deg;
+    border-radius: 4px;
 }
 
 #cardMe {
@@ -296,7 +370,7 @@ form {
     width: 240px;
     height: 120px;
     position: fixed;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 1);
 }
 
 .myCard {

@@ -93,7 +93,8 @@
             {% if player != username %}
             <div id="player1" class="player-icon">
                 <img src="{%static 'res/player.png'%}" /><br>
-                <label>{{player}}</label>
+                <label>{{player}}</label><br>
+                <label id="player1-score" class="score">100</label>
             </div>
             {% endif %}
             {% endfor %}
@@ -101,11 +102,12 @@
         <div id="cardStack">
             <img src="{%static 'res/card/1.png'%}" width="100%" />
         </div>
-        <div id="playerMe">
-
+        <div id="playerStatus">
+            <img src="{% static 'res/player.png' %}" /><br>
+            <label id="playerNow">${player}</label>
         </div>
-        <div id="cardBlock">
-            <img src="{%static 'res/card/1.png'%}" class="cardBl" width="100%" />
+        <div id="cardCenter">
+            <img src="{%static 'res/card/1.png'%}" class="card-center card-center-animation tilt03" width="160" />
         </div>
         <div id="cardMe-back"></div>
         <div id="cardMe">
@@ -142,7 +144,6 @@
                         </table>
                     </div>
                 </div>
-
                 {% else %}
                 <div class="message-friend message">
                     <div>
@@ -224,7 +225,8 @@
                         playerDiv.classList.add('player-icon');
                         playerDiv.innerHTML = `
                             <img src="{% static 'res/player.png' %}" /><br>
-                            <label>${player}</label>
+                            <label>${player}</label><br>
+                            <label id="player1-score" class="score">100</label>
                         `;
                         playerBar.appendChild(playerDiv);
                     }
@@ -245,6 +247,22 @@
                     console.log(hands[currentPlayer])
                 }
             });
+
+            function addCardCenter(card) {
+                let cardCenter = document.getElementById("cardCenter")
+                let removeAnimation = cardCenter.innerHTML.replace("card-center-animation", "")
+                cardCenter.innerHTML = removeAnimation +
+                 '<img src="{%static 'res/card/1.png'%}" class="card-center card-center-animation tilt0' + 
+                 Math.floor(Math.random() * (5 - 1 + 1) + 1) + '" width="160" />'
+            }
+
+            function setCurrentPlayer(name) {
+                document.getElementById("playerNow").innerText = name
+            }
+
+            function setPlayerScore(name, score) {
+                document.getElementById(name + "-score").innerText = score
+            }
         </script>
 
     </body>
