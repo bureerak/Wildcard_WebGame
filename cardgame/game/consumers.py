@@ -21,7 +21,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         room = await sync_to_async(Room.objects.get)(room_name=self.room_name[5:])
         players = room.data.get("players", [])
         # ตรวจสอบว่าผู้เล่นครบ 4 คนหรือยัง
-        if len(players) == 4:
+        if len(players) == 4 and not room.data.get(self.user_name, []):
             # เรียกใช้ deal_cards เมื่อผู้เล่นครบ 4 คน
             await sync_to_async(room.deal_cards)()
 
@@ -95,7 +95,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     
     async def wait_and_delete_room_if_empty(self):
         """รอ 3 วินาที แล้วตรวจสอบว่าห้องว่างหรือไม่ ถ้าว่างก็ลบห้อง"""
-        await asyncio.sleep(3)  # รอ 3 วินาที
+        await asyncio.sleep(5)  # รอ 5 วินาที
         await self.delete_room_if_empty()
 
     @database_sync_to_async

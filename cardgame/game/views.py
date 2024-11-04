@@ -50,13 +50,16 @@ def home_page(request):
     return render(request, 'stream/index.html')
 
 def in_game(request, room_name, username):
+    """ สิ่งที่ client จะมีหลังเข้าไปที่หน้าเว็บ """
     existing_room = Room.objects.get(room_name=room_name)
     get_message = Message.objects.filter(room=existing_room)
-    players = existing_room.data.get("players", [])
+    players = existing_room.data.get("players", []) #รายชื่อผู้เล่น
+    card_inhands = existing_room.data.get(f"{username}",[]) #การ์ดที่มีบนมือของ username
     context = {
         "messages":get_message,
         "username":username,
         "room_name":existing_room.room_name,
         "players":players,
+        "mycard":card_inhands,
     }
     return render(request, 'stream/game.html', context)

@@ -112,6 +112,9 @@
         <div id="cardMe-back"></div>
         <div id="cardMe">
         {% comment %} พื้นที่ Card {% endcomment %}
+        {%for cd in mycard%}
+        <img src="{% static 'res/card/1.png' %}" alt="" class="myCard">
+        {% endfor %}
         </div>
         <div id="chat-hide" onclick="showChat()">
             <img src="{%static 'res/chat.png'%}" width="40" />
@@ -237,6 +240,7 @@
 
                     const my_card = document.getElementById("cardMe");
                     const my_hand = hands[currentPlayer]
+                    my_card.innerHTML = ''
                     my_hand.forEach(card => {
                         const imgElement = document.createElement('img')
                         imgElement.src = `{% static 'res/card/1.png' %}`; // เปลี่ยน ${i} เป็นหมายเลขการ์ด
