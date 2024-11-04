@@ -55,11 +55,14 @@ def in_game(request, room_name, username):
     get_message = Message.objects.filter(room=existing_room)
     players = existing_room.data.get("players", []) #รายชื่อผู้เล่น
     card_inhands = existing_room.data.get(f"{username}",[]) #การ์ดที่มีบนมือของ username
+    curr_t = existing_room.turn_list if existing_room.turn_list else ["Waiting..."]
+    turn_index = existing_room.current_turn
     context = {
         "messages":get_message,
         "username":username,
         "room_name":existing_room.room_name,
         "players":players,
         "mycard":card_inhands,
+        "current_turn":curr_t[turn_index],
     }
     return render(request, 'stream/game.html', context)

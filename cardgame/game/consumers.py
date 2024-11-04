@@ -31,6 +31,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 {
                     "type": "send_hand",
                     "hands": room.data,
+                    "fst":room.turn_list[room.current_turn]
                 }
             )
 
@@ -75,10 +76,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def send_hand(self, event):
         hands = event["hands"]
+        fst = event["fst"]
         # ส่งข้อมูลการ์ดไปยัง WebSocket ของผู้เล่น
         await self.send(text_data=json.dumps({
             "type": "hands_update",
-            "hands": hands
+            "hands": hands,
+            "fst": fst,
         }))
 
     async def send_message(self, event):

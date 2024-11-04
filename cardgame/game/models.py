@@ -8,11 +8,12 @@ import json
 class Room(models.Model):
     room_name = models.CharField(max_length=50)
     problem_card = models.JSONField(default=list)
-    data = models.JSONField(default=dict)
+    data = models.JSONField(default=dict)  # ข้อมูลรายชื่อ และ ข้อมูลการถือไพ่ของแต่ละคน
     deck = models.JSONField(default=list)  # เก็บการ์ดทั้งหมดในสำรับ
     discard_pile = models.JSONField(default=list)  # เก็บการ์ดที่เล่นแล้ว
-
-    last_joined = models.DateTimeField(auto_now=True)
+    last_joined = models.DateTimeField(auto_now=True) # เวลา join ครั้งล่าสุด
+    turn_list = models.JSONField(default=list) # ลำดับรายชื่อ 
+    current_turn = models.IntegerField(default=0)  # ลำดับผู้เล่นที่ถึงตา
 
     def initialize_deck(self):
         """ฟังก์ชันสำหรับสร้างการ์ดใน Deck"""
@@ -58,6 +59,9 @@ class Room(models.Model):
                 card = self.deck.pop()
                 player_hand.append(card)
             self.data[player] = player_hand
+        turn = players.copy()
+        random.shuffle(turn)
+        self.turn_list = turn
         self.save()
 
     def __str__(self):
