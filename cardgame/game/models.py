@@ -5,6 +5,16 @@ from asgiref.sync import async_to_sync
 import json
 # Create your models here.
 
+def default_rule():
+    return {
+        "Green":[1,2,3,4,5],
+        "Gray":[1,6,7,8,9],
+        "Orange":[2,6,10,11,12],
+        "Yellow":[3,7,10,13,14],
+        "Purple":[4,8,11,13,15],
+        "Blue":[5,9,12,14,15]
+        }
+
 class Room(models.Model):
     room_name = models.CharField(max_length=50)
     problem_card = models.JSONField(default=list)
@@ -14,31 +24,14 @@ class Room(models.Model):
     last_joined = models.DateTimeField(auto_now=True) # เวลา join ครั้งล่าสุด
     turn_list = models.JSONField(default=list) # ลำดับรายชื่อ 
     current_turn = models.IntegerField(default=0)  # ลำดับผู้เล่นที่ถึงตา
+    rule = models.JSONField(default=default_rule)
 
     def initialize_deck(self):
         """ฟังก์ชันสำหรับสร้างการ์ดใน Deck"""
-        color = ["Green","Gray","Orange","Yellow","Purple","Blue"]
-        color_pairs = [
-        ("Green", "Gray"),
-        ("Green", "Orange"),
-        ("Green", "Yellow"),
-        ("Green", "Purple"),
-        ("Green", "Blue"),
-        ("Gray", "Orange"),
-        ("Gray", "Yellow"),
-        ("Gray", "Purple"),
-        ("Gray", "Blue"),
-        ("Orange", "Yellow"),
-        ("Orange", "Purple"),
-        ("Orange", "Blue"),
-        ("Yellow", "Purple"),
-        ("Yellow", "Blue"),
-        ("Purple", "Blue")]
-        deck = []
-        prop_deck = []
-        for color1,color2 in color_pairs:
-            deck.append({'color1': color1, 'color2': color2})
-            deck.append({'color1': color1, 'color2': color2})
+        color, deck, prop_deck = ["Green","Gray","Orange","Yellow","Purple","Blue"], [], []
+        for i in range(1,16):
+            deck.append({'type': i})
+            deck.append({'type': i})
         for i in color:
             prop_deck.append({'prob':i})
             prop_deck.append({'prob':i})
