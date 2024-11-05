@@ -75,6 +75,36 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         'username':username
                     }
                 )
+            else:
+                pass #รอเขียนส่งข้อความแจ้งเตือน
+
+        elif data_json.get("action",None) != None:
+            username = data_json["username"]
+            room = await database_sync_to_async(Room.objects.get)(room_name=self.room_name[5:])
+
+            playerid = room.turn_list
+            playerid = playerid.index(username)
+            success = await sync_to_async(room.draw_card)(playerid, username)
+            room = await database_sync_to_async(Room.objects.get)(room_name=self.room_name[5:])
+            if success:
+                await self.channel_layer.group_send(
+                    self.room_name,
+                    {
+                        'type': 'update_card_by_user',
+                        'username': username,
+                        'hand': room.data.get(username,[]),
+                        'current_turn': room.turn_list[room.current_turn],
+                    }
+                )
+
+    async def update_card_by_user(self,event):
+        """ function นี้เพื่ออัพเดทการ์ดบนมือคนจั่ว """
+        await self.send(text_data=json.dumps({
+            'type': 'draw_update',
+            'username': event['username'],
+            'hand' : event['hand'],
+            'current_turn' : event['current_turn'],
+        }))
 
     async def update_game_state(self, event):
         # ส่งข้อมูลอัปเดตไปยัง frontend

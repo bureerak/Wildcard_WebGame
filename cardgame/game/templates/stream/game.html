@@ -254,6 +254,7 @@
                     })
                     console.log(hands[currentPlayer])
                 } else if (chaneldata.type === "game_state"){
+                    setCurrentPlayer(chaneldata.current_turn)
                     const use = chaneldata.username
                     if (use === "{{ username }}"){
                         const user_hand = chaneldata.cardid
@@ -262,7 +263,23 @@
                             element.parentNode.removeChild(element);
                         }
                     }
+                } else if (chaneldata.type === "draw_update"){
                     setCurrentPlayer(chaneldata.current_turn)
+                    const user = chaneldata.username
+                    if (user === "{{ username }}"){
+                        const my_card = document.getElementById("cardMe")
+                        const user_hand = chaneldata.hand
+                        my_card.innerHTML = ''
+                        user_hand.forEach((card, index) => {
+                            const imgElement = document.createElement('img')
+                            const staticBaseURL = "{% static 'res/card/' %}"
+                            const i = card.type
+                            imgElement.src = `${staticBaseURL}${i}.png` // เปลี่ยน ${i} เป็นหมายเลขการ์ด
+                            imgElement.className = 'myCard'
+                            imgElement.id = `hCard${index}`
+                            // เพิ่ม element <img> ลงใน container
+                            my_card.appendChild(imgElement);
+                        })}
                 }
 
             });
@@ -295,10 +312,19 @@
                         cardid:cardId,
                         cardtype:number,
                         username:"{{username}}",
-                    })
-                )
+                    }))
                 });
             });
+
+            const cardStack = document.getElementById('cardStack')
+            cardStack.addEventListener('click', function() {
+                socket.send(
+                    JSON.stringify({
+                        action:"draw_card",
+                        username: "{{username}}",
+                    }))
+            })
+
         </script>
 
     </body>

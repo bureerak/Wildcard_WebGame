@@ -26,6 +26,15 @@ class Room(models.Model):
     current_turn = models.IntegerField(default=0)  # ลำดับผู้เล่นที่ถึงตา
     rule = models.JSONField(default=default_rule)
 
+    def draw_card(self, player_id, username):
+        if self.current_turn == player_id:
+            self.data[username].append(self.deck.pop())
+            self.current_turn = (self.current_turn + 1) % 4 # เปลี่ยนเทิร์น
+            self.save()
+            return True
+        return False
+
+
     def play_card(self, player_id, username, card):
         if self.current_turn == player_id: #เงื่อนไขว่าตรงกับกองตรงกลางมั้ยใส่ตรงนี้ (ยังไม่ใส่)
             card = int(card)
