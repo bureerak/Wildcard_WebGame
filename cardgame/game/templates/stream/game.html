@@ -106,14 +106,91 @@
             <img src="{% static 'res/player.png' %}" /><br>
             <label id="playerNow">{{ current_turn }}</label>
         </div>
+        <style>
+            @keyframes playerError {
+                0% {
+                    background-color: initial;
+                }
+
+                50% {
+                    background-color: rgba(255, 0, 0, 0.5);
+                }
+
+                100% {
+                    background-color: rgba(255, 255, 255, 0.5);
+                }
+            }
+
+            @keyframes cardError {
+                0% {
+                    rotate: 0deg;
+                    opacity: 1;
+                }
+                
+                20% {
+                    rotate: 5deg;
+                }
+
+                40% {
+                    rotate: -4deg;
+                }
+
+                50% {
+                    opacity: 0.6;
+                }
+
+                60% {
+                    rotate: 3deg;
+                }
+
+                80% {
+                    rotate: -2deg;
+                }
+
+                100% {
+                    rotate: 0deg;
+                    opacity: 1;
+                }
+            }
+
+            .playerStatusError {
+                animation-name: playerError;
+                animation-duration: 0.75s;
+            }
+
+            .cardError {
+                animation-name: cardError;
+                animation-duration: 0.6s;
+            }
+        </style>
+        <script>
+            function showplayerStatusError() {
+                let playerStatus = document.getElementById("playerStatus")
+                playerStatus.classList.remove("playerStatusError")
+                playerStatus.classList.add("playerStatusError")
+                setTimeout( function() {
+                    playerStatus.classList.remove("playerStatusError")
+                }, 750 )
+            }
+
+            function showcardError(id) {
+                let cardError = document.getElementById(id)
+                cardError.classList.remove("cardError")
+                cardError.classList.add("cardError")
+                setTimeout( function() {
+                    cardError.classList.remove("cardError")
+                }, 599 )
+            }
+        </script>
         <div id="cardCenter">
             <img src="{%static 'res/card/1.png'%}" class="card-center card-center-animation tilt03" width="160" />
         </div>
         <div id="cardMe-back"></div>
         <div id="cardMe">
+            <img src="{%static 'res/card/1.png'%}" alt="" class="myCard" id="hCard01" onclick="showcardError(this.id)">
         {% comment %} พื้นที่ Card {% endcomment %}
         {%for cd in mycard%}
-        <img src="{% static cd %}" alt="" class="myCard" id="hCard{{ forloop.counter0 }}">
+            <img src="{% static cd %}" alt="" class="myCard" id="hCard{{ forloop.counter0 }}">
         {% endfor %}
         </div>
         <div id="waitForGame">
