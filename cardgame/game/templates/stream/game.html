@@ -113,7 +113,7 @@
         <div id="cardMe">
         {% comment %} พื้นที่ Card {% endcomment %}
         {%for cd in mycard%}
-        <img src="{% static 'res/card/1.png' %}" alt="" class="myCard">
+        <img src="{% static cd %}" alt="" class="myCard" id="hCard{{ forloop.counter0 }}">
         {% endfor %}
         </div>
         <div id="chat-hide" onclick="showChat()">
@@ -242,15 +242,29 @@
                     const my_hand = hands[currentPlayer]
                     setCurrentPlayer(chaneldata.fst)
                     my_card.innerHTML = ''
-                    my_hand.forEach(card => {
+                    my_hand.forEach((card, index) => {
+                        const i = card.type
                         const imgElement = document.createElement('img')
-                        imgElement.src = `{% static 'res/card/1.png' %}`; // เปลี่ยน ${i} เป็นหมายเลขการ์ด
-                        imgElement.className = 'myCard';
+                        const staticBaseURL = "{% static 'res/card/' %}"
+                        imgElement.src = `${staticBaseURL}${i}.png` // เปลี่ยน ${i} เป็นหมายเลขการ์ด
+                        imgElement.className = 'myCard'
+                        imgElement.id = `hCard${index}`
                         // เพิ่ม element <img> ลงใน container
                         my_card.appendChild(imgElement);
                     })
                     console.log(hands[currentPlayer])
+                } else if (chaneldata.type === "game_state"){
+                    const use = chaneldata.username
+                    if (use === "{{ username }}"){
+                        const user_hand = chaneldata.cardid
+                        let element = document.getElementById(user_hand)
+                        if (element) {
+                            element.parentNode.removeChild(element);
+                        }
+                    }
+                    setCurrentPlayer(chaneldata.current_turn)
                 }
+
             });
 
             function addCardCenter(card) {
@@ -268,6 +282,23 @@
             function setPlayerScore(name, score) {
                 document.getElementById(name + "-score").innerText = score
             }
+
+            document.querySelectorAll('.myCard').forEach(card => {
+                card.addEventListener('click', function() {
+                    const cardId = this.getAttribute('id'); // ไอดีหรือก็คือ เรากดที่ใบไหนในมือ
+                    let imageSrc = this.getAttribute('src');
+                    let lastSegment = imageSrc.split('/').pop(); // ได้ '1.png'
+                    const number = lastSegment.split('.')[0]; // ได้ '1' หรือก็คือ ประเภทของไพ่
+                    // ส่งข้อมูลผ่าน WebSocket
+                    socket.send(
+                    JSON.stringify({
+                        cardid:cardId,
+                        cardtype:number,
+                        username:"{{username}}",
+                    })
+                )
+                });
+            });
         </script>
 
     </body>

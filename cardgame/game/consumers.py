@@ -53,6 +53,38 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
             await self.channel_layer.group_send(self.room_name, event)
 
+        elif data_json.get("cardid",None) != None:
+            room = await database_sync_to_async(Room.objects.get)(room_name=self.room_name[5:])
+            cardid = data_json["cardid"]
+            cardtype = data_json["cardtype"]
+            username = data_json["username"]
+
+            playerid = room.turn_list
+            playerid = playerid.index(username)
+
+            success = await sync_to_async(room.play_card)(playerid, username, cardtype)
+            room = await database_sync_to_async(Room.objects.get)(room_name=self.room_name[5:])
+            if success:
+                # ส่งข้อมูลอัปเดตไปยังผู้เล่นทุกคน
+                await self.channel_layer.group_send(
+                    self.room_name,
+                    {
+                        'type': 'update_game_state',
+                        'cardid': cardid,
+                        'current_turn': room.turn_list[room.current_turn],
+                        'username':username
+                    }
+                )
+
+    async def update_game_state(self, event):
+        # ส่งข้อมูลอัปเดตไปยัง frontend
+        await self.send(text_data=json.dumps({
+            'type': 'game_state',
+            'cardid': event['cardid'],
+            'current_turn': event['current_turn'],
+            'username': event['username']
+        }))
+
     async def update_players(self):
         room = await database_sync_to_async(Room.objects.get)(room_name=self.room_name[5:])
         players = room.data.get("players", [])

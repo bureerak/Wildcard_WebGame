@@ -26,6 +26,15 @@ class Room(models.Model):
     current_turn = models.IntegerField(default=0)  # ลำดับผู้เล่นที่ถึงตา
     rule = models.JSONField(default=default_rule)
 
+    def play_card(self, player_id, username, card):
+        if self.current_turn == player_id: #เงื่อนไขว่าตรงกับกองตรงกลางมั้ยใส่ตรงนี้ (ยังไม่ใส่)
+            card = int(card)
+            self.data[username].remove({"type":card}) #ลบไพ่ออกจากมือผู้เล่น
+            self.current_turn = (self.current_turn + 1) % 4 # เปลี่ยนเทิร์น
+            self.save()
+            return True  # เพื่อบอกว่าการลงไพ่สำเร็จ
+        return False  # หากยังไม่ถึงตาผู้เล่น
+
     def initialize_deck(self):
         """ฟังก์ชันสำหรับสร้างการ์ดใน Deck"""
         color, deck, prop_deck = ["Green","Gray","Orange","Yellow","Purple","Blue"], [], []
