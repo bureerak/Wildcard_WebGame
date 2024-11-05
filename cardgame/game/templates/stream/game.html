@@ -116,6 +116,26 @@
         <img src="{% static cd %}" alt="" class="myCard" id="hCard{{ forloop.counter0 }}">
         {% endfor %}
         </div>
+        <div id="waitForGame">
+            <div>
+                <label>
+                    WildCard
+                </label>
+                <br>
+                <label>
+                    การ์ดเกมปัญหาสิ่งแวดล้อม
+                </label>
+                <br>
+                <br>
+                <br>
+                <label id="waitLabel">
+                    กำลังรอผู้เล่น.
+                </label>
+            </div>
+        </div>
+        <script>
+            
+        </script>
         <div id="chat-hide" onclick="showChat()">
             <img src="{%static 'res/chat.png'%}" width="40" />
         </div>
@@ -235,6 +255,8 @@
                     }
                     });
                 } else if (chaneldata.type === "hands_update"){
+                    waitStart()
+
                     const hands = chaneldata.hands
                     const currentPlayer = "{{ username }}"
 
@@ -298,6 +320,29 @@
 
             function setPlayerScore(name, score) {
                 document.getElementById(name + "-score").innerText = score
+            }
+
+            let waitLoop = setInterval(waitDotPlayer, 1000)
+            let waitLabel = document.getElementById("waitLabel")
+            let maxDot = 5
+            let waitWord = "กำลังรอผู้เล่น"
+
+            function waitDotPlayer() {
+                let nextDot = waitLabel.innerText.split(".").length
+                waitLabel.innerText = waitWord + ".".repeat(nextDot % maxDot)
+            }
+
+            function waitStart() {
+                clearInterval(waitLoop)
+                waitLabel.innerText = "เกมกำลังเริ่ม!"
+                waitLabel.style.fontWeight = "bold"
+
+                setTimeout( function() {
+                    document.getElementById("waitForGame").style.opacity = 0
+                    setTimeout( function() {
+                        document.getElementById("waitForGame").style.display = "none"
+                    }, 999 )
+                }, 1500 )
             }
 
             document.querySelectorAll('.myCard').forEach(card => {
