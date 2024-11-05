@@ -345,6 +345,10 @@
                 }, 1500 )
             }
 
+            function hideStart() {
+                document.getElementById("waitForGame").style.display = "none"
+            }
+
             document.querySelectorAll('.myCard').forEach(card => {
                 card.addEventListener('click', function() {
                     const cardId = this.getAttribute('id'); // ไอดีหรือก็คือ เรากดที่ใบไหนในมือ
@@ -371,6 +375,10 @@
             })
 
         </script>
-
+        {% if mycard %}
+        <script>
+            hideStart()
+        </script>
+        {% endif %}
     </body>
 </html>
