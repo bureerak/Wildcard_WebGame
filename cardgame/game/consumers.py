@@ -76,7 +76,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     }
                 )
             else:
-                pass #รอเขียนส่งข้อความแจ้งเตือน
+                await self.channel_layer.group_send(self.room_name,{'type': 'error','spec':'card','username':username,'cardid': cardid,})
 
         elif data_json.get("action",None) != None:
             username = data_json["username"]
@@ -96,6 +96,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         'current_turn': room.turn_list[room.current_turn],
                     }
                 )
+            else:
+                await self.channel_layer.group_send(self.room_name,{'type': 'error','spec':'not_turn','username':username})
+
+    async def error(self,event):
+        """ Error send """
+        cardid = event.get('cardid',[])
+        await self.send(text_data=json.dumps({
+            'type': 'error',
+            'spec': event['spec'],
+            'username': event['username'],
+            'cardid': cardid
+        }))
 
     async def update_card_by_user(self,event):
         """ function นี้เพื่ออัพเดทการ์ดบนมือคนจั่ว """

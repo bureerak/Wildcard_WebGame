@@ -379,6 +379,17 @@
                             // เพิ่ม element <img> ลงใน container
                             my_card.appendChild(imgElement);
                         })}
+                } else if (chaneldata.type === 'error'){
+                    const spec = chaneldata.spec
+                    const username = chaneldata.username
+                    const cardid = chaneldata.cardid
+                    if ('{{username}}' === username) {
+                        if (spec === 'not_turn'){
+                            showplayerStatusError()
+                        } else if (spec === 'card'){
+                            showcardError(cardid)
+                        }
+                    }
                 }
 
             });
