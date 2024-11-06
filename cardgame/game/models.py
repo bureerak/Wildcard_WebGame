@@ -18,6 +18,7 @@ def default_rule():
 class Room(models.Model):
     room_name = models.CharField(max_length=50)
     problem_card = models.JSONField(default=list)
+    center = models.JSONField(default=list) #เก็บ card ตรงกลาง
     data = models.JSONField(default=dict)  # ข้อมูลรายชื่อ และ ข้อมูลการถือไพ่ของแต่ละคน
     deck = models.JSONField(default=list)  # เก็บการ์ดทั้งหมดในสำรับ
     discard_pile = models.JSONField(default=list)  # เก็บการ์ดที่เล่นแล้ว
@@ -36,10 +37,15 @@ class Room(models.Model):
 
 
     def play_card(self, player_id, username, card):
-        if self.current_turn == player_id: #เงื่อนไขว่าตรงกับกองตรงกลางมั้ยใส่ตรงนี้ (ยังไม่ใส่)
-            card = int(card)
+        card = int(card)
+        center_card = self.center
+        center_card = center_card['prob']
+        rule_use = self.rule
+        rule_use = rule_use[center_card]
+        if self.current_turn == player_id and card in rule_use: #เงื่อนไขว่าตรงกับกองตรงกลางมั้ยใส่ตรงนี้
             self.data[username].remove({"type":card}) #ลบไพ่ออกจากมือผู้เล่น
             self.current_turn = (self.current_turn + 1) % 4 # เปลี่ยนเทิร์น
+            self.center = self.problem_card.pop()
             self.save()
             return True  # เพื่อบอกว่าการลงไพ่สำเร็จ
         return False  # หากยังไม่ถึงตาผู้เล่น
@@ -55,6 +61,7 @@ class Room(models.Model):
             prop_deck.append({'prob':i})
         random.shuffle(prop_deck)
         random.shuffle(deck)
+        self.center = prop_deck.pop()
         self.deck = deck
         self.problem_card = prop_deck
         self.save()

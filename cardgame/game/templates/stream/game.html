@@ -183,11 +183,13 @@
             }
         </script>
         <div id="cardCenter">
-            <img src="{%static 'res/card/1.png'%}" class="card-center card-center-animation tilt03" width="160" />
+            {%if center%}
+            <img src="{%static center%}" class="card-center card-center-animation tilt03" width="160" />
+            {%endif%}
         </div>
         <div id="cardMe-back"></div>
         <div id="cardMe">
-            <img src="{%static 'res/card/1.png'%}" alt="" class="myCard" id="hCard01" onclick="showcardError(this.id)">
+            {% comment %} <img src="{%static 'res/card/1.png'%}" alt="" class="myCard" id="hCard01" onclick="showcardError(this.id)"> {% endcomment %}
         {% comment %} พื้นที่ Card {% endcomment %}
         {%for cd in mycard%}
             <img src="{% static cd %}" alt="" class="myCard" id="hCard{{ forloop.counter0 }}">
@@ -354,6 +356,7 @@
                     console.log(hands[currentPlayer])
                 } else if (chaneldata.type === "game_state"){
                     setCurrentPlayer(chaneldata.current_turn)
+                    addCardCenter(chaneldata.center)
                     const use = chaneldata.username
                     if (use === "{{ username }}"){
                         const user_hand = chaneldata.cardid
@@ -383,6 +386,9 @@
                     const spec = chaneldata.spec
                     const username = chaneldata.username
                     const cardid = chaneldata.cardid
+                    console.log(username)
+                    console.log(cardid)
+                    console.log(spec)
                     if ('{{username}}' === username) {
                         if (spec === 'not_turn'){
                             showplayerStatusError()
@@ -397,8 +403,10 @@
             function addCardCenter(card) {
                 let cardCenter = document.getElementById("cardCenter")
                 let removeAnimation = cardCenter.innerHTML.replace("card-center-animation", "")
+                const staticBaseURL = "{% static 'res/card/' %}"
+                const cardImageURL = `${staticBaseURL}${card}.png`
                 cardCenter.innerHTML = removeAnimation +
-                 '<img src="{%static 'res/card/1.png'%}" class="card-center card-center-animation tilt0' + 
+                 `<img src="${cardImageURL}" class="card-center card-center-animation tilt` + 
                  Math.floor(Math.random() * (5 - 1 + 1) + 1) + '" width="160" />'
             }
 
@@ -437,20 +445,22 @@
                 document.getElementById("waitForGame").style.display = "none"
             }
 
-            document.querySelectorAll('.myCard').forEach(card => {
-                card.addEventListener('click', function() {
-                    const cardId = this.getAttribute('id'); // ไอดีหรือก็คือ เรากดที่ใบไหนในมือ
-                    let imageSrc = this.getAttribute('src');
+            document.getElementById("cardMe").addEventListener("click", function(event) {
+                // ตรวจสอบว่า element ที่คลิกมีคลาส myCard
+                if (event.target.classList.contains("myCard")) {
+                    const cardId = event.target.getAttribute('id'); // ไอดีของการ์ดที่คลิก
+                    let imageSrc = event.target.getAttribute('src'); // แหล่งที่มาของรูปภาพ
                     let lastSegment = imageSrc.split('/').pop(); // ได้ '1.png'
-                    const number = lastSegment.split('.')[0]; // ได้ '1' หรือก็คือ ประเภทของไพ่
+                    const number = lastSegment.split('.')[0]; // ได้ '1' หรือประเภทของไพ่
                     // ส่งข้อมูลผ่าน WebSocket
                     socket.send(
-                    JSON.stringify({
-                        cardid:cardId,
-                        cardtype:number,
-                        username:"{{username}}",
-                    }))
-                });
+                        JSON.stringify({
+                            cardid: cardId,
+                            cardtype: number,
+                            username: "{{username}}",
+                        })
+                    );
+                }
             });
 
             const cardStack = document.getElementById('cardStack')

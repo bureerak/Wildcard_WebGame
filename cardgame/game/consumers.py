@@ -72,7 +72,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         'type': 'update_game_state',
                         'cardid': cardid,
                         'current_turn': room.turn_list[room.current_turn],
-                        'username':username
+                        'username':username,
+                        'center':room.center['prob']
                     }
                 )
             else:
@@ -124,7 +125,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'type': 'game_state',
             'cardid': event['cardid'],
             'current_turn': event['current_turn'],
-            'username': event['username']
+            'username': event['username'],
+            "center": event["center"],
         }))
 
     async def update_players(self):
