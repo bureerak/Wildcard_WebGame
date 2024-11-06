@@ -106,63 +106,6 @@
             <img src="{% static 'res/player.png' %}" /><br>
             <label id="playerNow">{{ current_turn }}</label>
         </div>
-        <style>
-            @keyframes playerError {
-                0% {
-                    background-color: initial;
-                }
-
-                50% {
-                    background-color: rgba(255, 0, 0, 0.5);
-                }
-
-                100% {
-                    background-color: rgba(255, 255, 255, 0.5);
-                }
-            }
-
-            @keyframes cardError {
-                0% {
-                    rotate: 0deg;
-                    opacity: 1;
-                }
-                
-                20% {
-                    rotate: 5deg;
-                }
-
-                40% {
-                    rotate: -4deg;
-                }
-
-                50% {
-                    opacity: 0.6;
-                }
-
-                60% {
-                    rotate: 3deg;
-                }
-
-                80% {
-                    rotate: -2deg;
-                }
-
-                100% {
-                    rotate: 0deg;
-                    opacity: 1;
-                }
-            }
-
-            .playerStatusError {
-                animation-name: playerError;
-                animation-duration: 0.75s;
-            }
-
-            .cardError {
-                animation-name: cardError;
-                animation-duration: 0.6s;
-            }
-        </style>
         <script>
             function showplayerStatusError() {
                 let playerStatus = document.getElementById("playerStatus")
@@ -279,8 +222,86 @@
                 </form>
             </div>
         </div>
-
+        <div id="endgame" style="display: none; opacity: 0;">
+            <div class="endgame-container">
+                <label>
+                    WildCard
+                </label>
+                <br>
+                <label>
+                    การ์ดเกมปัญหาสิ่งแวดล้อม
+                </label>
+                <br>
+                <br>
+                <label id="endgame-label">
+                    จบเกมแล้ว
+                </label>
+                <br>
+                <br>
+                <div id="endgame-podium">
+                    <div>
+                        <br>
+                        <br>
+                        <br>
+                        <img src="{% static 'res/player.png' %}" width="64" />
+                        <br>
+                        <label id="player2nd">
+                            Second Name
+                        </label>
+                    </div>
+                    <div>
+                        <div id="grid-first">
+                            <img src="{% static 'res/player.png' %}" width="96" />
+                            <br>
+                            <label id="player1st">
+                                First Name
+                            </label>
+                        </div>
+                        <br>
+                        <div>
+                            <img src="{% static 'res/player.png' %}" width="48" />
+                            <br>
+                            <label id="player4th">
+                                Forth Name
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <br>
+                        <br>
+                        <br>
+                        <img src="{% static 'res/player.png' %}" width="64" />
+                        <br>
+                        <label id="player3rd">
+                            Third Name
+                        </label>
+                    </div>
+                </div>
+                <br>
+                <button type="submit" onclick="window.history.go(-1)">
+                    ปิดเกม
+                </button>
+            </div>
+        </div>
         <script>
+            function showendGame(first, second, third, forth) {
+                let endgame = document.getElementById("endgame")
+                let firstLabel = document.getElementById("player1st")
+                let secondLabel = document.getElementById("player2nd")
+                let thirdLabel = document.getElementById("player3rd")
+                let forthLabel = document.getElementById("player4th")
+
+                firstLabel.innerText = first
+                secondLabel.innerText = second
+                thirdLabel.innerText = third
+                forthLabel.innerText = forth
+                endgame.style.display = "inline"
+                endgame.style.opacity = 0
+                setTimeout( function () {
+                    endgame.style.opacity = 1
+                }, 100 )
+            }
+
             const socketURL = `ws://${window.location.host}/ws/messages/{{room_name}}/`
             console.log("Entablishing Socket Connection")
             const socket = new WebSocket(socketURL)

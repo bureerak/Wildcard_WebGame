@@ -274,7 +274,7 @@ form {
     animation-duration: 0.5s;
 }
 
-#waitForGame {
+#waitForGame, #endgame {
     position: fixed;
     top: 0;
     left: 0;
@@ -284,7 +284,126 @@ form {
     transition: all 1s ease;
 }
 
-#waitForGame div {
+@keyframes playerEnd {
+    0% {
+        rotate: 0deg;
+    }
+    
+    10% {
+        rotate: 5deg;
+    }
+
+    20% {
+        rotate: -4deg;
+    }
+
+    30% {
+        rotate: 3deg;
+    }
+
+    40% {
+        rotate: -2deg;
+    }
+
+    50% {
+        rotate: 1deg;
+    }
+
+    60%, 100% {
+        rotate: 0deg;
+    }
+}
+
+#endgame-podium {
+    display: grid;
+    grid-template-columns: 33% 34% 33%;
+}
+
+#endgame-podium div {
+    padding: 8px 0;
+}
+
+#endgame-podium img {
+    animation: playerEnd;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-delay: 500ms;
+}
+
+#endgame-label{
+    font-size: x-large;
+}
+
+#player1st {
+    font-size: larger;
+}
+
+#player2nd, #player3rd, #player4th {
+    font-size: small;
+}
+
+#grid-first {
+    background-color: gold;
+    border-radius: 16px;
+}
+
+@keyframes playerError {
+    0% {
+        background-color: initial;
+    }
+
+    50% {
+        background-color: rgba(255, 0, 0, 0.5);
+    }
+
+    100% {
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+}
+
+@keyframes cardError {
+    0% {
+        rotate: 0deg;
+        opacity: 1;
+    }
+    
+    20% {
+        rotate: 5deg;
+    }
+
+    40% {
+        rotate: -4deg;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    60% {
+        rotate: 3deg;
+    }
+
+    80% {
+        rotate: -2deg;
+    }
+
+    100% {
+        rotate: 0deg;
+        opacity: 1;
+    }
+}
+
+.playerStatusError {
+    animation-name: playerError;
+    animation-duration: 0.75s;
+}
+
+.cardError {
+    animation-name: cardError;
+    animation-duration: 0.6s;
+}
+
+#waitForGame div, .endgame-container {
     position: fixed;
     width: 50%;
     top: 50%;
@@ -296,7 +415,7 @@ form {
     padding: 32px 8px;
 }
 
-#waitForGame label:first-child {
+#waitForGame label:first-child, #endgame label:first-child {
     font-size: 8vw;
     font-weight: bold;
     color: rgb(56, 127, 57);
