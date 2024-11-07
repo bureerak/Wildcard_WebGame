@@ -100,7 +100,7 @@
             {% endfor %}
         </div>
         <div id="cardStack">
-            <img src="{%static 'res/card/1.png'%}" width="100%" />
+            <img src="{%static 'res/card/backcard.jpg'%}" width="100%" />
         </div>
         <div id="playerStatus">
             <img src="{% static 'res/player.png' %}" /><br>
@@ -178,7 +178,7 @@
                                         {{ i.message }}
                                     </div>
                                     <div class="message-info">
-                                        12:34 | {{ i.sender }}
+                                        {{ i.formatted_time }} | {{ i.sender }}
                                     </div>
                                 </td>
                                 <td width="2"></td>
@@ -203,7 +203,7 @@
                                         {{ i.message }}
                                     </div>
                                     <div class="message-info">
-                                        12:34 | {{ i.sender }}
+                                        {{ i.formatted_time }} | {{ i.sender }}
                                     </div>
                                 </td>
                             </tr>
@@ -329,12 +329,13 @@
                     const data = chaneldata.message;
                     const sender = data["sendman"];
                     const content = data["message"];
+                    const time = data["time"];
             
                     if (sender === "{{ username }}") {
                         document.getElementById("message").value = "";
                     }
                     
-                    addMessage(content, sender, "00:00", sender === "{{ username }}" ? 0 : 1);
+                    addMessage(content, sender, time, sender === "{{ username }}" ? 0 : 1);
                     console.log("Message sent");
             
                 } else if (chaneldata.type === "player_list") {

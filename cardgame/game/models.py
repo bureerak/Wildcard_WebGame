@@ -3,6 +3,7 @@ import random
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 import json
+from django.utils import timezone
 # Create your models here.
 
 def default_rule():
@@ -95,6 +96,11 @@ class Message(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     sender = models.CharField(max_length=50)
     message = models.TextField()
+    time = models.DateTimeField(auto_now=True)
+
+    def formatted_time(self):
+        local_time = timezone.localtime(self.time)
+        return local_time.strftime('%H:%M')
 
     def __str__(self):
         return f"{self.room} - {self.sender}"

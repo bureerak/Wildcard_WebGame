@@ -4,6 +4,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from .models import Room, Message
 from asgiref.sync import sync_to_async
+import datetime
 
 class ChatConsumer(AsyncWebsocketConsumer):
 
@@ -66,7 +67,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             room = await database_sync_to_async(Room.objects.get)(room_name=self.room_name[5:])
             sortscore = list(room.score.items())
             sortscore.sort(reverse=True,key=lambda x:x[1])
-            print(sortscore)
             sortscore = [x[0] for x in sortscore]
             if success:
                 # ส่งข้อมูลอัปเดตไปยังผู้เล่นทุกคน
@@ -174,6 +174,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         response = {
             "sendman": data["sendman"],
             "message": data["message"],
+            'time': datetime.datetime.now().strftime('%H:%M')
         }
         await self.send(text_data=json.dumps({
             "type": "send_message",
