@@ -13,6 +13,7 @@
 - asgiref==3.8.1
 - channels==4.1.0
 - Django==5.1.1
+- daphne==4.1.2
 
 ## Installation
 1. **Clone Repository**
