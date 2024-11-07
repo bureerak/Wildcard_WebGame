@@ -62,7 +62,7 @@ def in_game(request, room_name, username):
         center = f"res/card/{center}.png"
     mycard = []
     for cd in card_inhands:
-        mycard.append(f"res/card/{cd["type"]}.png")
+        mycard.append(f"res/card/{cd['type']}.png")
     context = {
         "messages":get_message,
         "username":username,
