@@ -13,10 +13,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # ดึงห้องจากฐานข้อมูลแล้วเพิ่มชื่อผู้เล่น
         await self.add_player_to_room()
-        await self.update_players()
 
         await self.channel_layer.group_add(self.room_name, self.channel_name)
         await self.accept()
+        await self.update_players()
 
         room = await sync_to_async(Room.objects.get)(room_name=self.room_name[5:])
         players = room.data.get("players", [])
@@ -73,7 +73,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         'cardid': cardid,
                         'current_turn': room.turn_list[room.current_turn],
                         'username':username,
-                        'center':room.center['prob']
+                        'center':room.center['prob'],
+                        'upscore':room.score[username],
                     }
                 )
             else:
@@ -127,6 +128,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'current_turn': event['current_turn'],
             'username': event['username'],
             "center": event["center"],
+            'upscore': event["upscore"],
         }))
 
     async def update_players(self):

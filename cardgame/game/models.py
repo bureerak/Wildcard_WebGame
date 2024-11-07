@@ -26,6 +26,7 @@ class Room(models.Model):
     turn_list = models.JSONField(default=list) # ลำดับรายชื่อ 
     current_turn = models.IntegerField(default=0)  # ลำดับผู้เล่นที่ถึงตา
     rule = models.JSONField(default=default_rule)
+    score = models.JSONField(default=dict)
 
     def draw_card(self, player_id, username):
         if self.current_turn == player_id:
@@ -44,6 +45,7 @@ class Room(models.Model):
         rule_use = rule_use[center_card]
         if self.current_turn == player_id and card in rule_use: #เงื่อนไขว่าตรงกับกองตรงกลางมั้ยใส่ตรงนี้
             self.data[username].remove({"type":card}) #ลบไพ่ออกจากมือผู้เล่น
+            self.score[username] += 2
             self.current_turn = (self.current_turn + 1) % 4 # เปลี่ยนเทิร์น
             self.center = self.problem_card.pop()
             self.save()
@@ -77,6 +79,7 @@ class Room(models.Model):
                 card = self.deck.pop()
                 player_hand.append(card)
             self.data[player] = player_hand
+            self.score[player] = 0
         turn = players.copy()
         random.shuffle(turn)
         self.turn_list = turn

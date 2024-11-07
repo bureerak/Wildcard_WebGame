@@ -70,6 +70,7 @@ def in_game(request, room_name, username):
         "players":players,
         "mycard":mycard,
         "current_turn":curr_t[turn_index],
-        "center": center
+        "center": center,
+        "all_score": existing_room.score
     }
     return render(request, 'stream/game.html', context)
