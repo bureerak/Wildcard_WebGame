@@ -376,16 +376,24 @@
                     })
                     console.log(hands[currentPlayer])
                 } else if (chaneldata.type === "game_state"){
-                    setCurrentPlayer(chaneldata.current_turn)
-                    addCardCenter(chaneldata.center)
                     const use = chaneldata.username
-                    setPlayerScore(use,chaneldata.upscore)
+                    setCurrentPlayer(chaneldata.current_turn)
+                    if (use !== "{{ username }}"){
+                        setPlayerScore(use,chaneldata.upscore)
+                    }
                     if (use === "{{ username }}"){
                         const user_hand = chaneldata.cardid
                         let element = document.getElementById(user_hand)
                         if (element) {
                             element.parentNode.removeChild(element);
                         }
+                    }
+                    if (chaneldata.center === 'end') {
+                        const tier = chaneldata.sortscore
+                        console.log(tier)
+                        showendGame(tier[0],tier[1],tier[2],tier[3])
+                    } else{
+                        addCardCenter(chaneldata.center)
                     }
                 } else if (chaneldata.type === "draw_update"){
                     setCurrentPlayer(chaneldata.current_turn)

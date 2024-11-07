@@ -47,7 +47,10 @@ class Room(models.Model):
             self.data[username].remove({"type":card}) #ลบไพ่ออกจากมือผู้เล่น
             self.score[username] += 2
             self.current_turn = (self.current_turn + 1) % 4 # เปลี่ยนเทิร์น
-            self.center = self.problem_card.pop()
+            if self.problem_card:
+                self.center = self.problem_card.pop()
+            else:
+                self.center = {'prob':'end'}
             self.save()
             return True  # เพื่อบอกว่าการลงไพ่สำเร็จ
         return False  # หากยังไม่ถึงตาผู้เล่น
