@@ -16,9 +16,5 @@
 
 ## Installation
 1. **Clone Repository**
-2. **Requirement Install**:
-   ``bash pip install -r requirements.txt
-
-## Start
-``bash
-  py manage.py runserver
+2. **Requirement Install**: ``bash pip install -r requirements.txt``
+3. **Run server**: ``bash py manage.py runserver``
