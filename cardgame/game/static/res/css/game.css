@@ -206,17 +206,7 @@ form {
     height: auto;
 }
 
-#menuBtn {
-    width: 24px;
-    height: 24px;
-    top: 16px;
-    left: 16px;
-    background-image: url("../menu.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: block;
-    position: fixed;
-}
+
 
 @keyframes mycenter {
     0% {
@@ -484,6 +474,10 @@ form {
     width: 25vw;
     height: auto;
     rotate: 90deg;
+    border-radius: 4px;
+}
+
+#cardStack img {
     border-radius: 4px;
 }
 

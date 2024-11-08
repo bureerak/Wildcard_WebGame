@@ -87,7 +87,38 @@
     </head>
     <body>
         <div id="game-body"></div>
-        <div id="menuBtn"></div>
+        <style>
+            #myscore-div {
+                width: 144px;
+                height: 60px;
+                top: 16px;
+                left: 16px;
+                background-color: rgba(255, 255, 255, 0.5);
+                border-radius: 16px;
+                display: block;
+                position: fixed;
+                text-align: center;
+                padding: 2px;
+            }
+
+            .p-2 {
+                padding: 3px;
+            }
+
+            #label-sc {
+                font-size: large;
+                font-weight: bold;
+            }
+
+            #my-score {
+                line-height: 28px;
+            }
+        </style>
+        <div id="myscore-div">
+            <div class="p-2"></div>
+            <label id="label-sc">คะแนนของฉัน</label><br>
+            <label id="my-score">0</label>
+        </div>
         <div id="playerBar">
             {% for key, player in all_score.items %}
             {% if key != username %}
@@ -155,9 +186,6 @@
                 </label>
             </div>
         </div>
-        <script>
-            
-        </script>
         <div id="chat-hide" onclick="showChat()">
             <img src="{%static 'res/chat.png'%}" width="40" />
         </div>
@@ -443,7 +471,11 @@
             }
 
             function setPlayerScore(name, score) {
-                document.getElementById(name + "-score").innerText = score
+                if (name != "{{username}}") {
+                    document.getElementById(name + "-score").innerText = score
+                } else {
+                    document.getElementById("my-score").innerText = score
+                }
             }
 
             let waitLoop = setInterval(waitDotPlayer, 1000)
