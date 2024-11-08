@@ -58,6 +58,7 @@ def in_game(request, room_name, username):
     curr_t = existing_room.turn_list if existing_room.turn_list else ["Waiting..."]
     turn_index = existing_room.current_turn
     center = existing_room.center.get('prob',[])
+    center_left = len(existing_room.problem_card)
     myscore = existing_room.score.get(username,0)
     if center:
         center = f"res/card/{center}.png"
@@ -74,5 +75,6 @@ def in_game(request, room_name, username):
         "center": center,
         "all_score": existing_room.score,
         "myscore": myscore,
+        "center_left":center_left
     }
     return render(request, 'stream/game.html', context)

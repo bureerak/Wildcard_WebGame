@@ -68,6 +68,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             sortscore = list(room.score.items())
             sortscore.sort(reverse=True,key=lambda x:x[1])
             sortscore = [x[0] for x in sortscore]
+            centerleft = len(room.problem_card)
             if success:
                 # ส่งข้อมูลอัปเดตไปยังผู้เล่นทุกคน
                 await self.channel_layer.group_send(
@@ -80,6 +81,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         'center':room.center['prob'],
                         'upscore':room.score[username],
                         'sortscore':sortscore,
+                        'centerleft':centerleft,
                     }
                 )
             else:
@@ -135,6 +137,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "center": event["center"],
             'upscore': event["upscore"],
             'sortscore': event['sortscore'],
+            'centerleft': event['centerleft'],
         }))
 
     async def update_players(self):

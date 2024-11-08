@@ -114,7 +114,7 @@
             <div id="cardStatus">
                 <img src="{%static 'res/card/backcard.jpg'%}" width="40" /><br>
                 <label>ไพ่คงเหลือ</label><br>
-                <label id="cardLeft">0</label>
+                <label id="cardLeft">{{center_left}}</label>
             </div>
         </div>
         <script>
@@ -388,6 +388,7 @@
                     const use = chaneldata.username
                     setCurrentPlayer(chaneldata.current_turn)
                     setPlayerScore(use,chaneldata.upscore)
+                    setCardLeft(chaneldata.centerleft)
                     if (use === "{{ username }}"){
                         const user_hand = chaneldata.cardid
                         let element = document.getElementById(user_hand)
