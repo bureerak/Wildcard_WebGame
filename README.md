@@ -20,5 +20,7 @@
 2. **Requirement Install**: ``bash pip install -r requirements.txt``
 3. **Run server**: ``bash py manage.py runserver``
 
-## Guide (Create or Join by same room name)
+## Guide
+- Create or Join by same room name
+
 ![guide](https://github.com/user-attachments/assets/0ae957cd-be60-4580-a844-c02e5ebde454)
