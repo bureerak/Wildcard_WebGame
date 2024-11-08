@@ -117,7 +117,7 @@
         <div id="myscore-div">
             <div class="p-2"></div>
             <label id="label-sc">คะแนนของฉัน</label><br>
-            <label id="my-score">0</label>
+            <label id="my-score">{{ myscore }}</label>
         </div>
         <div id="playerBar">
             {% for key, player in all_score.items %}
@@ -407,9 +407,7 @@
                 } else if (chaneldata.type === "game_state"){
                     const use = chaneldata.username
                     setCurrentPlayer(chaneldata.current_turn)
-                    if (use !== "{{ username }}"){
-                        setPlayerScore(use,chaneldata.upscore)
-                    }
+                    setPlayerScore(use,chaneldata.upscore)
                     if (use === "{{ username }}"){
                         const user_hand = chaneldata.cardid
                         let element = document.getElementById(user_hand)
