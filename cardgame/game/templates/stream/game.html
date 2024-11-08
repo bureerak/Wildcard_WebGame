@@ -87,33 +87,6 @@
     </head>
     <body>
         <div id="game-body"></div>
-        <style>
-            #myscore-div {
-                width: 144px;
-                height: 60px;
-                top: 16px;
-                left: 16px;
-                background-color: rgba(255, 255, 255, 0.5);
-                border-radius: 16px;
-                display: block;
-                position: fixed;
-                text-align: center;
-                padding: 2px;
-            }
-
-            .p-2 {
-                padding: 3px;
-            }
-
-            #label-sc {
-                font-size: large;
-                font-weight: bold;
-            }
-
-            #my-score {
-                line-height: 28px;
-            }
-        </style>
         <div id="myscore-div">
             <div class="p-2"></div>
             <label id="label-sc">คะแนนของฉัน</label><br>
@@ -123,7 +96,11 @@
             {% for key, player in all_score.items %}
             {% if key != username %}
             <div class="player-icon">
-                <img src="{%static 'res/player.png'%}" /><br>
+                <img src="{%static 'res/player.png'%}" class="player-img" /><br>
+                <div class="player-card">
+                    <img src="{%static 'res/card/backcard.jpg'%}" width="16" />
+                    <label id="{{key}}-card">0</label>
+                </div>
                 <label>{{key}}</label><br>
                 <label id="{{key}}-score" class="score">{{player}}</label>
             </div>
@@ -133,9 +110,16 @@
         <div id="cardStack">
             <img src="{%static 'res/card/backcard.jpg'%}" width="100%" />
         </div>
-        <div id="playerStatus">
-            <img src="{% static 'res/player.png' %}" /><br>
-            <label id="playerNow">{{ current_turn }}</label>
+        <div id="topright">
+            <div id="playerStatus">
+                <img src="{% static 'res/player.png' %}" /><br>
+                <label id="playerNow">{{ current_turn }}</label>
+            </div>
+            <div id="cardStatus">
+                <img src="{%static 'res/card/backcard.jpg'%}" width="40" /><br>
+                <label>ไพ่คงเหลือ</label><br>
+                <label id="cardLeft">0</label>
+            </div>
         </div>
         <script>
             function showplayerStatusError() {
@@ -376,7 +360,11 @@
                         const playerDiv = document.createElement('div');
                         playerDiv.classList.add('player-icon');
                         playerDiv.innerHTML = `
-                            <img src="{% static 'res/player.png' %}" /><br>
+                            <img src="{% static 'res/player.png' %}" class="player-img" /><br>
+                            <div class="player-card">
+                                <img src="{%static 'res/card/backcard.jpg'%}" width="16" />
+                                <label id="${player}-card">0</label>
+                            </div>
                             <label>${player}</label><br>
                             <label id="${player}-score" class="score">0</label>
                         `;
@@ -474,6 +462,14 @@
                 } else {
                     document.getElementById("my-score").innerText = score
                 }
+            }
+
+            function setPlayerCard(name, card) {
+                document.getElementById(name + "-card").innerText = card
+            }
+
+            function setCardLeft(count) {
+                document.getElementById("cardLeft").innerText = count
             }
 
             let waitLoop = setInterval(waitDotPlayer, 1000)
