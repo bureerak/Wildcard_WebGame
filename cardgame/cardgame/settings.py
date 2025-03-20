@@ -135,16 +135,12 @@ CHANNEL_LAYERS = {
         'BACKEND': 'channels.layers.InMemoryChannelLayer',  # Backend ในหน่วยความจำสำหรับการทดสอบ
     },
 }
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-
-CSRF_COOKIE_DOMAIN = '.railway.app'  # ตั้งโดเมนให้ตรงกับของ Railway
-SESSION_COOKIE_DOMAIN = '.railway.app'  # ตั้งโดเมนให้ตรงกับของ Railway
-
-CSRF_COOKIE_PATH = '/'
-SESSION_COOKIE_PATH = '/'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://wildcardwebgame-production.up.railway.app/',
-    'https://www.wildcardwebgame-production.up.railway.app',
+    'https://wildcardwebgame-production.up.railway.app',  # เพิ่มโดเมนของ Railway ที่ใช้งาน
 ]
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_DOMAIN = '.railway.app'
+SESSION_COOKIE_DOMAIN = '.railway.app'
